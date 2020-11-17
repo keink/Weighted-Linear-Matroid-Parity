@@ -9,7 +9,7 @@ You can switch types of matrices by standard input.
 Mode 0, 1, 2, 4 respectively correspond to integer random matrices, incidence matrices of undirected graphs, matrices for S-path problem and incidence matrices of directed graphs.
 
 # Test cases
-Each test case starts with the number of rows and the number of columns, followed by elements of matrix.
+Each test case starts with the number of rows and the number of columns, and elements of matrix follow.
 
 # Output
 For each test case, programs output the following terms:  <br>
@@ -18,7 +18,7 @@ For each test case, programs output the following terms:  <br>
 - maximum absolute number appeared in the target matrix while executing the algorithm, <br>
 - solution, <br>
 - optimal value,<br>
-- and running time.
+- running time.
 
 # References
 [1] S. Iwata and Y. Kobayashi: A weighted linear matroid parity algorithm, Proceedings of the 49th ACM Symposium on Theory of Computing (STOC), 2018, pp. 264-276
