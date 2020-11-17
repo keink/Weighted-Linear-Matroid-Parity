@@ -8,10 +8,10 @@ Boost Multiprecision Library
 You can switch types of matrices by standard input.
 Mode 0, 1, 2, 4 respectively correspond to integer random matrices, incidence matrices of undirected graphs, matrices for S-path problem and incidence matrices of directed graphs.
 
-# Test cases
+## Test cases
 Each test case starts with the number of rows and the number of columns, and elements of matrix follow.
 
-# Output
+## Output
 For each test case, programs output the following terms:  <br>
 - initial base found by the algorithm<br>
 - how many times each procedures of the algorithm executed,<br>
