@@ -13,12 +13,12 @@ Each test case starts with the number of rows and the number of columns, followe
 
 # Output
 For each test case, programs output the following terms:  <br>
-  initial base found by the algorithm<br>
-  how many times each procedures of the algorithm executed,<br>
-  maximum absolute number appeared in the target matrix while executing the algorithm, <br>
-  solution, <br>
-  optimal value,<br>
-  and running time.
+- initial base found by the algorithm<br>
+- how many times each procedures of the algorithm executed,<br>
+- maximum absolute number appeared in the target matrix while executing the algorithm, <br>
+- solution, <br>
+- optimal value,<br>
+- and running time.
 
 # References
 [1] S. Iwata and Y. Kobayashi: A weighted linear matroid parity algorithm, Proceedings of the 49th ACM Symposium on Theory of Computing (STOC), 2018, pp. 264-276
