@@ -9,12 +9,12 @@ Mode 0, 1, 2, 4 respectively correspond to integer random matrices, incidence ma
 Each test case starts with the number of rows and the number of columns, followed by elements of matrix.
 
 # Output
-For each test case, programs output the following terms:  
-initial base found by the algorithm
-how many times each procedures of the algorithm executed,
-maximum absolute number appeared in the target matrix while executing the algorithm, 
-solution, 
-optimal value,
+For each test case, programs output the following terms:  <br>
+initial base found by the algorithm<br>
+how many times each procedures of the algorithm executed,<br>
+maximum absolute number appeared in the target matrix while executing the algorithm, <br>
+solution, <br>
+optimal value,<br>
 and running time.
 
 
