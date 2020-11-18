@@ -21,7 +21,7 @@ Each test case starts with the number of rows and the number of columns, and ele
 ## Output
 For each test case, programs output the following terms:  <br>
 - initial base found by the algorithm<br>
-- how many times each procedures of the algorithm executed,<br>
+- how many times each procedure of the algorithm executed,<br>
 - maximum absolute number appeared in the target matrix while executing the algorithm, <br>
 - solution, <br>
 - optimal value,<br>
