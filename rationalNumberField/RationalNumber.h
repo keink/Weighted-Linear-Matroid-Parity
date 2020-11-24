@@ -2,8 +2,8 @@
 #include <iostream>
 #include <math.h>
 #include <stdlib.h>
-#include<numeric>
-#include<climits>
+#include <numeric>
+#include <climits>
 #include "Field.h"
 #include <boost/multiprecision/cpp_int.hpp>
 
@@ -12,113 +12,131 @@ extern ll Graft_num;
 extern ll Augment_num;
 extern ll Search_num;
 extern ll DualUpdate_num;
-extern bool overflow; 
+extern bool overflow;
 
 typedef long long ll;
 typedef boost::multiprecision::cpp_int num_type;
 
-bool overflow_check_plus(ll a,ll b)
+bool overflow_check_plus(ll a, ll b)
 {
-	if(a>=0&&b>=0){
-		if(a<=LLONG_MAX-b)
+	if (a >= 0 && b >= 0)
+	{
+		if (a <= LLONG_MAX - b)
 		{
 			return false;
 		}
 		return false;
 	}
-	else if(a<0&&b>=0){
+	else if (a < 0 && b >= 0)
+	{
 		return false;
 	}
-	if(a<0&&b<0){
-		if(a>=LLONG_MIN-b){
+	if (a < 0 && b < 0)
+	{
+		if (a >= LLONG_MIN - b)
+		{
 			return false;
 		}
-		else{
+		else
+		{
 			return true;
 		}
 	}
+	return false;
 }
 
-bool overflow_check_product(ll a,ll b)
+bool overflow_check_product(ll a, ll b)
 {
-	if(a==0||b==0){
+	if (a == 0 || b == 0)
+	{
 		return false;
 	}
-	if(a>0&&b>0){
-		if(a<=LLONG_MAX/b)
+	if (a > 0 && b > 0)
+	{
+		if (a <= LLONG_MAX / b)
 		{
 			return false;
 		}
-		else{
+		else
+		{
 			return true;
 		}
 	}
-	else if(a<0&&b<0){
-		if(-a<=LLONG_MAX/(-b)){
+	else if (a < 0 && b < 0)
+	{
+		if (-a <= LLONG_MAX / (-b))
+		{
 			return false;
 		}
-		else{
+		else
+		{
 			return true;
 		}
 	}
-	else if(a>0&&b<0){
-		if(b>=LLONG_MIN/a){
+	else if (a > 0 && b < 0)
+	{
+		if (b >= LLONG_MIN / a)
+		{
 			return false;
 		}
-		else{
+		else
+		{
 			return true;
 		}
 	}
-	else if(a<0&&b>0){
-		if(a>=LLONG_MIN/b){
-			return false;
-		}
-		else{
-			return true;
-		}
+
+	if (a >= LLONG_MIN / b)
+	{
+		return false;
 	}
+	return true;
 }
 
 ll gcd(ll a, ll b)
 {
-	if(a==LLONG_MIN||b==LLONG_MIN){
+	if (a == LLONG_MIN || b == LLONG_MIN)
+	{
 		//std::cout<<"overflow"<<std::endl;
 		//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
 		//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-		overflow=true;
+		overflow = true;
 		//exit(EXIT_FAILURE);
 	}
 	a = abs(a);
 	b = abs(b);
-	if (b == 0){
+	if (b == 0)
+	{
 		return a;
 	}
-	else{
+	else
+	{
 		return gcd(b, a % b);
 	}
 }
 
 ll lcm(ll a, ll b)
 {
-	ll g=gcd(a,b);
-	ll c=a/g;
-	ll d=b/g;
-	if(overflow_check_product(c,d)){
+	ll g = gcd(a, b);
+	ll c = a / g;
+	ll d = b / g;
+	if (overflow_check_product(c, d))
+	{
 		//std::cout<<"overflow"<<std::endl;
 		//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
 		//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-		overflow=true;
+		overflow = true;
 		//exit(EXIT_FAILURE);
 	}
-	ll k=c*d;
-	if(overflow_check_product(k,g)){
+	ll k = c * d;
+	if (overflow_check_product(k, g))
+	{
 		//std::cout<<"overflow"<<std::endl;
 		//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
 		//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-		overflow=true;
+		overflow = true;
 		//exit(EXIT_FAILURE);
 	}
-	return k*g;
+	return k * g;
 }
 
 class RationalNumber : public Field
@@ -126,7 +144,7 @@ class RationalNumber : public Field
 	num_type num; //bunshi
 	num_type den; //bunbo
 
-  public:
+public:
 	RationalNumber(num_type numerator, num_type denominator)
 	{
 		/* if(numerator>LLONG_MAX||denominator>LLONG_MAX){
@@ -148,8 +166,8 @@ class RationalNumber : public Field
 				overflow=true;
 			}
 			else{ */
-				std::cout << "Error: denominator is 0" << std::endl;
-				exit(EXIT_FAILURE);
+			std::cout << "Error: denominator is 0" << std::endl;
+			exit(EXIT_FAILURE);
 			//}
 		}
 		if (denominator < 0)
@@ -186,10 +204,9 @@ class RationalNumber : public Field
 		//std::cout<<"Rational Number デストラクタ"<<std::endl;
 	}
 
-
 	RationalNumber operator+() const { return *this; }
-	RationalNumber operator-() const 
-	{ 
+	RationalNumber operator-() const
+	{
 		/* if(num==LLONG_MIN){
 			//std::cout<<"overflow"<<std::endl;
 			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
@@ -197,7 +214,7 @@ class RationalNumber : public Field
 			overflow=true;
 			//exit(EXIT_FAILURE);
 		} */
-		return RationalNumber(-num, den); 
+		return RationalNumber(-num, den);
 	}
 
 	RationalNumber inverse() const
@@ -235,22 +252,21 @@ class RationalNumber : public Field
 		return (num * (lc / den)) < (x.num * (lc / x.den));
 	}
 
-
-	RationalNumber& operator=(const RationalNumber& x)
+	RationalNumber &operator=(const RationalNumber &x)
 	{
 		//std::cout<<den<<std::endl;
-		den=x.den; num=x.num;
+		den = x.den;
+		num = x.num;
 		//std::cout<<"c"<<std::endl;
 		return *this;
 	}
-	
 
-	RationalNumber operator+(const RationalNumber &x)
+	RationalNumber operator+(const RationalNumber &x) const
 	{
 		//ll de = den * x.den;
 		//ll nu = num * x.den + den * x.num;
 
-		num_type de=boost::multiprecision::lcm(den,x.den);
+		num_type de = boost::multiprecision::lcm(den, x.den);
 		/* if(de==LLONG_MIN&&den==-1){
 			//std::cout<<"overflow"<<std::endl;
 			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
@@ -280,7 +296,7 @@ class RationalNumber : public Field
 			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;	
 			overflow=true;//exit(EXIT_FAILURE);
 		} */
-		num_type nu=(de/den)*num+(de/x.den)*x.num;
+		num_type nu = (de / den) * num + (de / x.den) * x.num;
 
 		return RationalNumber(nu, de);
 	}
@@ -288,9 +304,10 @@ class RationalNumber : public Field
 	RationalNumber &operator+=(const RationalNumber &x)
 	{
 		*this = *this + x;
+		return *this;
 	}
 
-	RationalNumber operator-(const RationalNumber &x)
+	RationalNumber operator-(const RationalNumber &x) const
 	{
 		return *this + (-x);
 	}
@@ -298,7 +315,7 @@ class RationalNumber : public Field
 	RationalNumber &operator-=(const RationalNumber &x)
 	{
 		*this = *this - x;
-		//return *this;
+		return *this;
 	}
 
 	RationalNumber operator*(const RationalNumber &x)
@@ -330,7 +347,7 @@ class RationalNumber : public Field
 	RationalNumber &operator*=(const RationalNumber &x)
 	{
 		*this = (*this) * x;
-		//return *this;
+		return *this;
 	}
 
 	RationalNumber operator/(const RationalNumber &x)
@@ -365,7 +382,7 @@ class RationalNumber : public Field
 
 	void output_num()
 	{
-		std::cout<<num;
+		std::cout << num;
 	}
 
 	void input()
@@ -395,7 +412,8 @@ class RationalNumber : public Field
 
 	void input_ll(ll a)
 	{
-		num=a;den=1;
+		num = a;
+		den = 1;
 	}
 
 	void setZero()
@@ -412,7 +430,7 @@ class RationalNumber : public Field
 
 	RationalNumber divideByTwo() const
 	{
-		RationalNumber a=RationalNumber(num,den);
+		RationalNumber a = RationalNumber(num, den);
 		/*
 		if(num%2==0)
 		{
@@ -422,12 +440,12 @@ class RationalNumber : public Field
 			a.den*=2;
 		}
 		*/
-		return a*RationalNumber(1,2);
+		return a * RationalNumber(1, 2);
 	}
 
 	RationalNumber Double() const
 	{
-		RationalNumber a=RationalNumber(num,den);
+		RationalNumber a = RationalNumber(num, den);
 		/*
 		if(den%2==0){
 			a.den/=2;
@@ -437,31 +455,33 @@ class RationalNumber : public Field
 		}
 		*/
 
-		return a*RationalNumber(2,1);
+		return a * RationalNumber(2, 1);
 	}
 
-	RationalNumber abs() const{
-		if(num>=0&&den>0){
-			return RationalNumber(num,den);
+	RationalNumber abs() const
+	{
+		if (num >= 0 && den > 0)
+		{
+			return RationalNumber(num, den);
 		}
-		else if(num<0&&den>0){
-			return RationalNumber(-num,den);
+		else if (num < 0 && den > 0)
+		{
+			return RationalNumber(-num, den);
 		}
-		else if(num>=0&&den<0){
-			return RationalNumber(num,-den);
+		else if (num >= 0 && den < 0)
+		{
+			return RationalNumber(num, -den);
 		}
-		else if(num<0&&den<0){
-			return RationalNumber(-num,-den);
-		}
+		return RationalNumber(-num, -den);
 	}
 
-	num_type max_num () const
+	num_type max_num() const
 	{
 		//std::cout<<num<<" "<<den<<std::endl;
-		RationalNumber x=(*this).abs();
+		RationalNumber x = (*this).abs();
 
 		//std::cout<<"mm"<<std::endl;
 		//std::cout<<x.num<<" "<<x.den<<std::endl;
-		return std::max(x.num,x.den);
+		return std::max(x.num, x.den);
 	}
 };

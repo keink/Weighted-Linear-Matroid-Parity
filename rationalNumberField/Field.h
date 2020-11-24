@@ -5,7 +5,7 @@ typedef long long ll;
 
 class Field
 {
-  public:
+public:
 	virtual Field operator+(){};
 	virtual Field operator-(){};
 	virtual Field inverse(){};
@@ -13,7 +13,7 @@ class Field
 	virtual bool operator==(const Field &x){};
 	virtual bool operator!=(const Field &x){};
 	virtual bool operator<(const Field &x) const {};
-	virtual Field& operator=(const Field &X){};
+	virtual Field &operator=(const Field &X){};
 	virtual Field operator+(const Field &x){};
 	virtual Field &operator+=(const Field &x){};
 	virtual Field operator-(const Field &x){};

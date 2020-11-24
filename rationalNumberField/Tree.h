@@ -9,7 +9,7 @@ typedef long long ll;
 
 class node
 {
-  public:
+public:
 	class node *parent;
 	class node *fchild;
 	//class node *prev;
@@ -18,21 +18,24 @@ class node
 	ll label;
 	Field q;
 	bool normal;
-	std::vector<std::vector<ll> > routing;
+	std::vector<std::vector<ll>> routing;
 	std::vector<ll> ordering;
 	ll tip;
 	ll bud;
 
 	node()
 	{
-		fchild=NULL;
-		next=NULL;
-		key=0; label=0; q.setZero();
-		tip=0; bud=0;
+		fchild = NULL;
+		next = NULL;
+		key = 0;
+		label = 0;
+		q.setZero();
+		tip = 0;
+		bud = 0;
 	}
 	~node()
 	{
-		for (ll i = 0; i < routing.size();i++)
+		for (ll i = 0; i < routing.size(); i++)
 		{
 			routing[i].clear();
 			routing[i].shrink_to_fit();
@@ -50,18 +53,18 @@ typedef std::pair<node *, p1> pp;
 
 class Tree
 {
-  public:
+public:
 	node *root;
 	ll num;
 
 	Tree()
 	{
-		node *r=new node();
-		num=0;
-		r->key=-1;
-		r->next=NULL;
-		r->parent=NULL;
-		root=r;
+		node *r = new node();
+		num = 0;
+		r->key = -1;
+		r->next = NULL;
+		r->parent = NULL;
+		root = r;
 	}
 
 	//rootはダミー
@@ -73,7 +76,7 @@ class Tree
 		r->key = -1;
 		//r->prev = NULL;
 		r->next = NULL;
-		r->parent=NULL;
+		r->parent = NULL;
 		root = r;
 
 		node *x = new node();
@@ -100,36 +103,39 @@ class Tree
 	}
 };
 
-bool isLeaf(Tree& T,node *x)
+bool isLeaf(Tree &T, node *x)
 {
-	if(x->fchild==NULL){
-		return true;
-	}
-	else{	
-		return false;
-	}
-}
-
-bool isMaximal(Tree& T,node *x)
-{
-	if(x->parent==T.root)
+	if (x->fchild == NULL)
 	{
 		return true;
 	}
-	else{
+	else
+	{
 		return false;
 	}
 }
 
-std::vector<node*> maximal_blossom(Tree &T)
+bool isMaximal(Tree &T, node *x)
+{
+	if (x->parent == T.root)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+std::vector<node *> maximal_blossom(Tree &T)
 {
 	node *x;
-	std::vector<node*> v;
+	std::vector<node *> v;
 
 	x = (T.root)->fchild;
 	while (x != NULL)
 	{
-		if (!isLeaf(T,x))
+		if (!isLeaf(T, x))
 		{
 			v.push_back(x);
 		}
@@ -138,11 +144,11 @@ std::vector<node*> maximal_blossom(Tree &T)
 	return v;
 }
 
-std::vector<node*> descendant(Tree & T, node *H)
+std::vector<node *> descendant(Tree &T, node *H)
 {
-	node *x=H;
-	std::queue<node*> que;
-	std::vector<node*> ret;
+	node *x = H;
+	std::queue<node *> que;
+	std::vector<node *> ret;
 	que.push(x);
 
 	while (!que.empty())
@@ -154,7 +160,8 @@ std::vector<node*> descendant(Tree & T, node *H)
 		while (y != NULL)
 		{
 			que.push(y);
-			if(!isLeaf(T,y)){
+			if (!isLeaf(T, y))
+			{
 				ret.push_back(y);
 			}
 			y = y->next;
@@ -163,13 +170,12 @@ std::vector<node*> descendant(Tree & T, node *H)
 	return ret;
 }
 
-
-std::vector<node*> all_blossoms(Tree &T)
+std::vector<node *> all_blossoms(Tree &T)
 {
-	node *x=T.root;
+	node *x = T.root;
 
-	std::queue<node*> que;
-	std::vector<node*> ret;
+	std::queue<node *> que;
+	std::vector<node *> ret;
 	que.push(x);
 
 	while (!que.empty())
@@ -190,7 +196,8 @@ std::vector<node*> all_blossoms(Tree &T)
 			}
 			std::cout<<std::endl;
 			*/
-			if(!isLeaf(T,y)){
+			if (!isLeaf(T, y))
+			{
 				ret.push_back(y);
 				//std::cout<<y->key<<" "<<x->key<<std::endl;
 				/*
@@ -212,43 +219,46 @@ std::vector<node*> all_blossoms(Tree &T)
 	return ret;
 }
 
-std::vector<node*> blossoms_in_MaximalNormalBlossom(Tree & T)
+std::vector<node *> blossoms_in_MaximalNormalBlossom(Tree &T)
 {
-	node *x=T.root;
+	node *x = T.root;
 
-	std::queue<node*>que;
-	std::vector<node*>ret;
+	std::queue<node *> que;
+	std::vector<node *> ret;
 
 	que.push(T.root);
 
-	while(!que.empty())
+	while (!que.empty())
 	{
-		node *x=que.front();
-		node *y=x->fchild;
+		node *x = que.front();
+		node *y = x->fchild;
 		que.pop();
-		while(y!=NULL){
-			if(y->normal){
+		while (y != NULL)
+		{
+			if (y->normal)
+			{
 				que.push(y);
-				if(!isLeaf(T,y)){
+				if (!isLeaf(T, y))
+				{
 					ret.push_back(y);
 				}
 			}
-			y=y->next;
+			y = y->next;
 		}
 	}
 	return ret;
 }
 
-std::vector<node*> ancestors(Tree &T,node *x)
+std::vector<node *> ancestors(Tree &T, node *x)
 {
-	
-	std::vector<node*> ret;
-	x=x->parent;
-	while(x!=T.root)
+
+	std::vector<node *> ret;
+	x = x->parent;
+	while (x != T.root)
 	{
 		ret.push_back(x);
-	
-		x=x->parent;
+
+		x = x->parent;
 	}
 	return ret;
 }
@@ -288,7 +298,6 @@ pp tree_search(Tree &T, ll k)
 			}
 			std::cout << std::endl; 
 			*/
-	
 
 			if (y->key == k)
 			{
@@ -299,6 +308,7 @@ pp tree_search(Tree &T, ll k)
 			y = y->next;
 		}
 	}
+	return pp(NULL, p1(NULL, NULL));
 }
 
 void blossom_insert(Tree &T, ll N, std::set<ll> s, Field qh)
@@ -311,7 +321,7 @@ void blossom_insert(Tree &T, ll N, std::set<ll> s, Field qh)
 
 	//ｙを挿入
 	node *y = new node();
-	y->key = N+T.num;
+	y->key = N + T.num;
 	y->q = qh;
 	y->parent = p;
 	//y->prev = NULL;
@@ -398,7 +408,7 @@ void tree_delete(Tree &T, ll k)
 			node *z;
 			while (y != NULL)
 			{
-				y->parent=parent_node;
+				y->parent = parent_node;
 				z = y;
 				y = y->next;
 			}
@@ -408,7 +418,7 @@ void tree_delete(Tree &T, ll k)
 	delete x.first;
 }
 
-void blossom_initialize(Tree &T, std::vector<ll>& K)
+void blossom_initialize(Tree &T, std::vector<ll> &K)
 {
 	std::queue<node *> que;
 	que.push(T.root);
@@ -420,16 +430,19 @@ void blossom_initialize(Tree &T, std::vector<ll>& K)
 		que.pop();
 		while (y != NULL)
 		{
-			
-			if (x == T.root&&!isLeaf(T,y))
+
+			if (x == T.root && !isLeaf(T, y))
 			{
 				for (ll i = 0; i != y->ordering.size(); i++)
 				{
 					K[y->ordering[i]] = y->key;
 				}
-				if(y->normal){K[y->bud]=y->key;}
+				if (y->normal)
+				{
+					K[y->bud] = y->key;
+				}
 			}
-			
+
 			que.push(y);
 			y->label = 0;
 			y = y->next;

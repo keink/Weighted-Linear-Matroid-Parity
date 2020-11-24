@@ -7,7 +7,7 @@
 
 class Matrix : public Field
 {
-  public:
+public:
 	ll row;
 	ll col;
 	std::vector<std::vector<Field>> X;
@@ -54,11 +54,14 @@ class Matrix : public Field
 		X.shrink_to_fit();
 	}
 
-	Matrix operator -() const{
-		Matrix A(row,col);
-		for(ll i=0;i<row;i++){
-			for(ll j=0;j<col;j++){
-				A.X[i][j]=-X[i][j];
+	Matrix operator-() const
+	{
+		Matrix A(row, col);
+		for (ll i = 0; i < row; i++)
+		{
+			for (ll j = 0; j < col; j++)
+			{
+				A.X[i][j] = -X[i][j];
 			}
 		}
 		return A;
@@ -86,20 +89,21 @@ class Matrix : public Field
 
 	void input_matrix_int()
 	{
-		std::cin>>row>>col;
+		std::cin >> row >> col;
 		X.resize(row);
 		for (ll i = 0; i < row; i++)
 		{
 			X[i].resize(col);
 		}
 		ll x;
-		for(ll i=0;i<row;i++){
-			for(ll j=0;j<col;j++){
-				std::cin>>x;
-				X[i][j]=RationalNumber(x,1);
+		for (ll i = 0; i < row; i++)
+		{
+			for (ll j = 0; j < col; j++)
+			{
+				std::cin >> x;
+				X[i][j] = RationalNumber(x, 1);
 			}
 		}
-
 	}
 
 	void output_matrix()
@@ -190,8 +194,10 @@ class Matrix : public Field
 	{
 		Matrix B = Matrix(row, A.col);
 
-		for(ll i=0;i<B.row;i++){
-			for(ll j=0;j<B.col;j++){
+		for (ll i = 0; i < B.row; i++)
+		{
+			for (ll j = 0; j < B.col; j++)
+			{
 				B.X[i][j].setZero();
 			}
 		}
@@ -207,20 +213,25 @@ class Matrix : public Field
 		}
 		return B;
 	}
-	Matrix operator-(const Matrix& A)
+	Matrix operator-(const Matrix &A)
 	{
-		Matrix B=Matrix(row,col);
-		for(ll i=0;i<row;i++){
-			for(ll j=0;j<col;j++){
-				B.X[i][j]=X[i][j]-A.X[i][j];
+		Matrix B = Matrix(row, col);
+		for (ll i = 0; i < row; i++)
+		{
+			for (ll j = 0; j < col; j++)
+			{
+				B.X[i][j] = X[i][j] - A.X[i][j];
 			}
 		}
 		return B;
 	}
 
-	void matrix_setZero(){
-		for(ll i=0;i<row;i++){
-			for(ll j=0;j<col;j++){
+	void matrix_setZero()
+	{
+		for (ll i = 0; i < row; i++)
+		{
+			for (ll j = 0; j < col; j++)
+			{
 				X[i][j].setZero();
 			}
 		}
@@ -245,29 +256,31 @@ class Matrix : public Field
 	}
 
 	num_type maximum_number()
-    {
-        num_type gamma=0;
-        for(ll i=0;i<row;i++){
-            for(ll j=0;j<col;j++){
+	{
+		num_type gamma = 0;
+		for (ll i = 0; i < row; i++)
+		{
+			for (ll j = 0; j < col; j++)
+			{
 				//std::cout<<i<<" "<<j<<std::endl;
-                gamma=std::max(gamma,X[i][j].max_num());
+				gamma = std::max(gamma, X[i][j].max_num());
 				//std::cout<<i<<" "<<j<<std::endl;
-            }
-        }
-        return gamma;
-    }
+			}
+		}
+		return gamma;
+	}
 };
 
-Matrix matrix_inverse(const Matrix& A)
+Matrix matrix_inverse(const Matrix &A)
 {
-	Matrix B=A;
+	Matrix B = A;
 	ll c = A.col;
 	ll r = A.row;
 
 	if (r != c)
 	{
 		std::cout << "この行列のサイズは" << A.row << "*" << A.col << "なので逆行列を求められません" << std::endl;
-		
+
 		//exit(EXIT_FAILURE);
 	}
 
@@ -275,7 +288,7 @@ Matrix matrix_inverse(const Matrix& A)
 
 	Matrix A_inverse(n, n);
 
-		//A_inverse.output_matrix();
+	//A_inverse.output_matrix();
 
 	for (ll j = 0; j < n; j++)
 	{
@@ -292,7 +305,7 @@ Matrix matrix_inverse(const Matrix& A)
 		}
 		if (mx.isZero())
 		{
-			std::cout<<"A is not nonsingular"<<std::endl;
+			std::cout << "A is not nonsingular" << std::endl;
 			//A_inverse.matrix_setZero();
 			//return A_inverse;
 			exit(EXIT_FAILURE);
@@ -387,22 +400,28 @@ Matrix matrix_inverse(const Matrix& A)
 	return A_inverse;
 }
  */
-Matrix kronecker(Matrix& A, Matrix& B)
+Matrix kronecker(Matrix &A, Matrix &B)
 {
-    ll m1=A.row; ll n1=A.col;
-    ll m2=B.row; ll n2=B.col;
+	ll m1 = A.row;
+	ll n1 = A.col;
+	ll m2 = B.row;
+	ll n2 = B.col;
 
-    Matrix C(m1*m2,n1*n2);
+	Matrix C(m1 * m2, n1 * n2);
 
-    for(int i=0;i<m1;i++){
-        for(int j=0;j<n1;j++){
-            for(int k=0;k<m2;k++){
-                for(int l=0;l<n2;l++){
-                    C.X[i*m2+k][j*n2+l]=A.X[i][j]*B.X[k][l];
-                }
-            }
-        }
-    }
+	for (int i = 0; i < m1; i++)
+	{
+		for (int j = 0; j < n1; j++)
+		{
+			for (int k = 0; k < m2; k++)
+			{
+				for (int l = 0; l < n2; l++)
+				{
+					C.X[i * m2 + k][j * n2 + l] = A.X[i][j] * B.X[k][l];
+				}
+			}
+		}
+	}
 
-    return C;
+	return C;
 }
