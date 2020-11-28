@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <numeric>
 #include <climits>
-#include "Field.h"
 #include <boost/multiprecision/cpp_int.hpp>
 
+typedef long long ll;
 extern ll Blossom_num;
 extern ll Graft_num;
 extern ll Augment_num;
@@ -14,7 +14,6 @@ extern ll Search_num;
 extern ll DualUpdate_num;
 extern bool overflow;
 
-typedef long long ll;
 typedef boost::multiprecision::cpp_int num_type;
 
 bool overflow_check_plus(ll a, ll b)
@@ -139,7 +138,7 @@ ll lcm(ll a, ll b)
 	return k * g;
 }
 
-class RationalNumber : public Field
+class RationalNumber
 {
 	num_type num; //bunshi
 	num_type den; //bunbo

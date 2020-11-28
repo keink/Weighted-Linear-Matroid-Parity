@@ -13,7 +13,6 @@
 #include <stack>
 #define INF 9999999999
 #define EPS 1.0e-10
-#include "Field.h"
 #include "RationalNumber.h"
 #include "Matrix.h"
 #include "Tree.h"

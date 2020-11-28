@@ -1,11 +1,11 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "Field.h"
 #include "RationalNumber.h"
-#define Field RationalNumber
 
-class Matrix : public Field
+using Field = RationalNumber;
+
+class Matrix
 {
 public:
 	ll row;
