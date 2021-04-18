@@ -10,11 +10,11 @@ Type 0, 1, 2, 4, 10 respectively correspond to integer random matrices, incidenc
 
 You can run programs by replacing filepaths in main function with appropriate paths where files of test cases are located.
 
-Three variales "elements", "row_size", "nonzero_probs" are used for controlling to what extent the algorithm is applied among all the sample test cases (available in "sotsuron_data" directory).
+Three variales "elements", "row_size", "nonzero_probs" are used for controlling to what extent the algorithm is applied among all the sample test cases (available in "sotsuron_data" directory).  
 Those variables respectively represent:  
 "elements": absolute value of elements in matrices  
 "row_size": the number of rows of matrices
-"nonzero_prob": the probabilities of nonzero elements (used to create ramdom sample test cases)
+"nonzero_prob": the probabilities of nonzero elements (used to create ramdom sample test cases)  
 If you want to use your own test cases not sample test cases, then you can removes for-loops on these variables in main function.
 
 
