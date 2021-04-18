@@ -5,16 +5,16 @@ This is an implementation of an algorithm for weighted linear matroid parity pro
 [Boost Multiprecision Library](https://www.boost.org/doc/libs/1_75_0/libs/multiprecision/doc/html/index.html)
 
 # Usage
-You can switch types of matrices by standard input (it is inputted to a variable "inc").
++ You can switch types of matrices by standard input (it is inputted to a variable "inc").
 Type 0, 1, 2, 4, 10 respectively correspond to integer random matrices, incidence matrices of undirected graphs, matrices for S-path problem and incidence matrices of directed graphs, and for approximation algorithms for steiner tree problem (only available for the GaloisField program).
 
-You can run programs by replacing filepaths in main function with appropriate paths where files of test cases are located.
++ You can run programs by replacing filepaths in main function with appropriate paths where files of test cases are located.
 
-Three variales "elements", "row_size", "nonzero_probs" are used for controlling to what extent the algorithm is applied among all the sample test cases (available in "sotsuron_data" directory).  
++ Three variales "elements", "row_size", "nonzero_probs" are used for controlling to what extent the algorithm is applied among all the sample test cases (available in "sotsuron_data" directory).  
 Those variables respectively represent:  
-"elements": absolute value of elements in matrices  
-"row_size": the number of rows of matrices  
-"nonzero_prob": the probabilities of nonzero elements (used to create ramdom sample test cases)  
+  + "elements": absolute value of elements in matrices  
+  + "row_size": the number of rows of matrices  
+  + "nonzero_prob": the probabilities of nonzero elements (used to create ramdom sample test cases)  
 If you want to use your own test cases not sample test cases, then you can removes for-loops on these variables in main function.
 
 
