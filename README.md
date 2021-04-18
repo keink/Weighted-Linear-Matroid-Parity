@@ -19,7 +19,7 @@ Also it supports partial pairng (Parts of columns are paired).
 Each test case starts with the number of rows and the number of columns, and elements of matrix and weights of lines follow.
 For instance, if you want to run the algorithm for 
 <img src = https://latex.codecogs.com/gif.latex?\begin{pmatrix}&space;0&space;&&space;1&space;&&space;2&space;&&space;3&space;\\&space;-1&space;&&space;0&space;&&space;1&space;&&space;2&space;\\&space;-2&space;&&space;-1&space;&&space;0&space;&&space;1&space;\\&space;-3&space;&&space;-2&space;&&space;-1&space;&&space;0&space;\end{pmatrix} />
-and weights of lines are (2, 3), then test case should be written as below.
+and weights of lines are (1, 2), then test case should be written as below.
 ***
 4 4   
 0 1 2 3   
