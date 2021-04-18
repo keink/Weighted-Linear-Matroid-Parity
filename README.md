@@ -21,11 +21,11 @@ For instance, if you want to run the algorithm for
 <img src = https://latex.codecogs.com/gif.latex?\begin{pmatrix}&space;0&space;&&space;1&space;&&space;2&space;&&space;3&space;\\&space;-1&space;&&space;0&space;&&space;1&space;&&space;2&space;\\&space;-2&space;&&space;-1&space;&&space;0&space;&&space;1&space;\\&space;-3&space;&&space;-2&space;&&space;-1&space;&&space;0&space;\end{pmatrix} />
 and weights of lines are (2, 3), then test case should be written as below.
 ***
-4 4
-0 1 2 3
--1 0 1 2
--2 -1 0 1
--3 -2 -1 0
+4 4   
+0 1 2 3   
+-1 0 1 2   
+-2 -1 0 1   
+-3 -2 -1 0   
 1 2
 ***
 
