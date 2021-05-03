@@ -95,11 +95,7 @@ ll gcd(ll a, ll b)
 {
 	if (a == LLONG_MIN || b == LLONG_MIN)
 	{
-		//std::cout<<"overflow"<<std::endl;
-		//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-		//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
 		overflow = true;
-		//exit(EXIT_FAILURE);
 	}
 	a = abs(a);
 	b = abs(b);
@@ -120,64 +116,31 @@ ll lcm(ll a, ll b)
 	ll d = b / g;
 	if (overflow_check_product(c, d))
 	{
-		//std::cout<<"overflow"<<std::endl;
-		//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-		//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
 		overflow = true;
-		//exit(EXIT_FAILURE);
 	}
 	ll k = c * d;
 	if (overflow_check_product(k, g))
 	{
-		//std::cout<<"overflow"<<std::endl;
-		//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-		//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
 		overflow = true;
-		//exit(EXIT_FAILURE);
 	}
 	return k * g;
 }
 
 class RationalNumber
 {
-	num_type num; //bunshi
-	num_type den; //bunbo
+	num_type num; // numerator
+	num_type den; // denominator
 
 public:
 	RationalNumber(num_type numerator, num_type denominator)
 	{
-		/* if(numerator>LLONG_MAX||denominator>LLONG_MAX){
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-			overflow=true;
-			//exit(EXIT_FAILURE);
-		} */
 		if (denominator == 0)
 		{
-			//std::cout<<"num is "<<numerator<<" den is "<<denominator<<std::endl;
-			//std::cout << "Error: denominator is 0" << std::endl;
-			/* if(overflow){
-				//std::cout<<"!!!!!!!!!!!!!!!!!"<<std::endl;
-				//std::cout<<"overflow"<<std::endl;
-				denominator=1;
-				numerator=1;
-				overflow=true;
-			}
-			else{ */
 			std::cout << "Error: denominator is 0" << std::endl;
 			exit(EXIT_FAILURE);
-			//}
 		}
 		if (denominator < 0)
 		{
-			/* if(numerator==LLONG_MIN||denominator==LLONG_MIN){
-				//std::cout<<"overflow"<<std::endl;
-				//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-				//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-				overflow=true;
-				//exit(EXIT_FAILURE);
-			} */
 			numerator = -numerator;
 			denominator = -denominator;
 		}
@@ -187,10 +150,6 @@ public:
 		den = denominator / g;
 	}
 
-	/* 	RationalNumber(ll numerator){
-		num=numerator; den=1;
-	} */
-
 	RationalNumber()
 	{
 		num = 0;
@@ -199,20 +158,11 @@ public:
 
 	~RationalNumber()
 	{
-		//STD::cout<<col<<" "<<row<<std::endl;
-		//std::cout<<"Rational Number デストラクタ"<<std::endl;
 	}
 
 	RationalNumber operator+() const { return *this; }
 	RationalNumber operator-() const
 	{
-		/* if(num==LLONG_MIN){
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-			overflow=true;
-			//exit(EXIT_FAILURE);
-		} */
 		return RationalNumber(-num, den);
 	}
 
@@ -239,62 +189,19 @@ public:
 	bool operator<(const RationalNumber &x) const
 	{
 		num_type lc = boost::multiprecision::lcm(den, x.den);
-		/* if(overflow_check_product(num,lc/den)||overflow_check_product(x.num,lc/x.den))
-		{
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-			overflow=true;
-			//exit(EXIT_FAILURE);
-			return true;
-		} */
 		return (num * (lc / den)) < (x.num * (lc / x.den));
 	}
 
 	RationalNumber &operator=(const RationalNumber &x)
 	{
-		//std::cout<<den<<std::endl;
 		den = x.den;
 		num = x.num;
-		//std::cout<<"c"<<std::endl;
 		return *this;
 	}
 
 	RationalNumber operator+(const RationalNumber &x) const
 	{
-		//ll de = den * x.den;
-		//ll nu = num * x.den + den * x.num;
-
 		num_type de = boost::multiprecision::lcm(den, x.den);
-		/* if(de==LLONG_MIN&&den==-1){
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-			overflow=true;
-			//exit(EXIT_FAILURE);
-		}
-		if(de==LLONG_MIN&&x.den==-1){
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-			overflow=true;
-			//exit(EXIT_FAILURE);	
-		}
-		if(overflow_check_product(de/den,num)||overflow_check_product(de/x.den,x.num))
-		{
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-			overflow=true;
-			//exit(EXIT_FAILURE);
-		}
-		if(overflow_check_plus((de/den)*num,(de/x.den)*x.num))
-		{
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;	
-			overflow=true;//exit(EXIT_FAILURE);
-		} */
 		num_type nu = (de / den) * num + (de / x.den) * x.num;
 
 		return RationalNumber(nu, de);
@@ -333,13 +240,6 @@ public:
 		nu2 = nu2 / g2;
 		de1 = de1 / g2;
 
-		/* if(overflow_check_product(nu1,nu2)||overflow_check_product(de1,de2)){
-			//std::cout<<"overflow"<<std::endl;
-			//std::cout<<"the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment"<<std::endl;
-			//std::cout<<Search_num<<" "<<Blossom_num<<" "<<Graft_num<<" "<<DualUpdate_num<<" "<<Augment_num<<std::endl;
-			overflow=true;//exit(EXIT_FAILURE);
-		} */
-
 		return RationalNumber(nu1 * nu2, de1 * de2);
 	}
 
@@ -359,20 +259,6 @@ public:
 		*this = *this / x;
 		return *this;
 	}
-
-	/*
-	inline std::ostream& operator<<(std::ostream& s)
-	{
-		s<<num<<"/"<<den;
-		return s;
-	}
-	////////
-	inline std::istream& operator>>(std::istream& s)
-	{
-		s>>den;
-		return s;
-	}
-	*/
 
 	void output()
 	{
@@ -430,30 +316,12 @@ public:
 	RationalNumber divideByTwo() const
 	{
 		RationalNumber a = RationalNumber(num, den);
-		/*
-		if(num%2==0)
-		{
-			a.num/=2;
-		}
-		else{
-			a.den*=2;
-		}
-		*/
 		return a * RationalNumber(1, 2);
 	}
 
 	RationalNumber Double() const
 	{
 		RationalNumber a = RationalNumber(num, den);
-		/*
-		if(den%2==0){
-			a.den/=2;
-		}
-		else{
-			a.num*=2;
-		}
-		*/
-
 		return a * RationalNumber(2, 1);
 	}
 
@@ -476,11 +344,7 @@ public:
 
 	num_type max_num() const
 	{
-		//std::cout<<num<<" "<<den<<std::endl;
 		RationalNumber x = (*this).abs();
-
-		//std::cout<<"mm"<<std::endl;
-		//std::cout<<x.num<<" "<<x.den<<std::endl;
 		return std::max(x.num, x.den);
 	}
 };
