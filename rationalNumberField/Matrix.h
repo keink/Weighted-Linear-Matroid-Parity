@@ -30,7 +30,6 @@ public:
 					X[i][j].setOne();
 				else
 					X[i][j].setZero();
-				//std::cout<<i<<"  "<<j<<std::endl;
 			}
 		}
 	}
@@ -43,8 +42,6 @@ public:
 
 	~Matrix()
 	{
-		//std::cout<<row<<" "<<col<<std::endl;
-		//std::cout<<"Matrix デストラクタ"<<std::endl;
 		for (ll i = 0; i < row; i++)
 		{
 			X[i].clear();
@@ -82,7 +79,6 @@ public:
 			for (ll j = 0; j < col; j++)
 			{
 				X[i][j].input();
-				//std::cout<<i<<"  "<<j<<std::endl;
 			}
 		}
 	}
@@ -245,11 +241,6 @@ public:
 			for (ll j = 0; j < B.size(); j++)
 			{
 				S.X[i][j] = X[A[i]][B[j]];
-				//std::cout << i << " " << j << " " << A[i] << " " << B[j] << std::endl;
-				//S.X[i][j].output();
-				//std::cout << " ";
-				//X[A[i]][B[j]].output();
-				//std::cout << std::endl;
 			}
 		}
 		return S;
@@ -262,9 +253,7 @@ public:
 		{
 			for (ll j = 0; j < col; j++)
 			{
-				//std::cout<<i<<" "<<j<<std::endl;
 				gamma = std::max(gamma, X[i][j].max_num());
-				//std::cout<<i<<" "<<j<<std::endl;
 			}
 		}
 		return gamma;
@@ -279,16 +268,12 @@ Matrix matrix_inverse(const Matrix &A)
 
 	if (r != c)
 	{
-		std::cout << "この行列のサイズは" << A.row << "*" << A.col << "なので逆行列を求められません" << std::endl;
-
-		//exit(EXIT_FAILURE);
+		std::cout << "The size of this matrix is " << A.row << "*" << A.col << ", so we can't calculate the inverse matrix." << std::endl;
 	}
 
 	ll n = c;
 
 	Matrix A_inverse(n, n);
-
-	//A_inverse.output_matrix();
 
 	for (ll j = 0; j < n; j++)
 	{
@@ -306,23 +291,15 @@ Matrix matrix_inverse(const Matrix &A)
 		if (mx.isZero())
 		{
 			std::cout << "A is not nonsingular" << std::endl;
-			//A_inverse.matrix_setZero();
-			//return A_inverse;
 			exit(EXIT_FAILURE);
 		}
 
 		B.row_swap(j, pivot);
 		A_inverse.row_swap(j, pivot);
 
-		/* 			std::cout<<"aaa"<<std::endl;
-			output_matrix();
-			std::cout<<"aaa"<<std::endl;
-			A_inverse.output_matrix();
-			std::cout<<std::endl; */
-
 		Field a = B.X[j][j].inverse();
 
-		//multiply by a so that A[j][j]=1
+		// Multiplies by a so that A[j][j]=1
 		B.row_multiply(j, a);
 		A_inverse.row_multiply(j, a);
 
@@ -333,73 +310,12 @@ Matrix matrix_inverse(const Matrix &A)
 				Field b = B.X[i][j];
 				B.row_plus(i, j, -b);
 				A_inverse.row_plus(i, j, -b);
-				/*				for(ll k=0;k<n;k++){
-					A.row_plus(k,j,-b);
-					A.X[i][k]-=A.X[j][k]*b;
-					A_inverse.X[i][k]-=A_inverse.X[j][k]*b;
-				}*/
 			}
 		}
 	}
 	return A_inverse;
 }
 
-/* Matrix GaussJordan(Matrix &A)
-{
-	ll c = A.col;
-	ll r = A.row;
-
-	if (r != c)
-		exit(EXIT_FAILURE);
-
-	ll n = c;
-
-	Matrix A_inverse(n, n);
-	//A_inverse.output_matrix();
-
-	for (ll j = 0; j < n; j++)
-	{
-		Field mx;
-		mx.setZero();
-		ll pivot = j;
-		for (ll i = j; i < n; i++)
-		{
-			if (mx < A.X[i][j] || mx < -A.X[i][j])
-			{
-				mx = std::max(A.X[i][j], -A.X[i][j]);
-				pivot = i;
-			}
-		}
-		if (mx.isZero())
-			exit(EXIT_FAILURE);
-		A.row_swap(j, pivot);
-		A_inverse.row_swap(j, pivot);
-
-		Field a = A.X[j][j].inverse();
-
-		//multiply by a so that A[j][j]=1
-		A.row_multiply(j, a);
-		A_inverse.row_multiply(j, a);
-
-		for (ll i = 0; i < n; i++)
-		{
-			if (i != j)
-			{
-				Field b = A.X[i][j];
-				A.row_plus(i, j, -b);
-				A_inverse.row_plus(i, j, -b);
-				/*				for(ll k=0;k<n;k++){
-					A.row_plus(k,j,-b);
-					A.X[i][k]-=A.X[j][k]*b;
-					A_inverse.X[i][k]-=A_inverse.X[j][k]*b;
-				}*/
-/*
-			}
-		}
-	}
-	return A_inverse;
-}
- */
 Matrix kronecker(Matrix &A, Matrix &B)
 {
 	ll m1 = A.row;

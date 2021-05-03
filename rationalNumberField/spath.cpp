@@ -37,11 +37,7 @@ pair<Matrix, vector<RationalNumber>> create_matrix_for_spath(vector<pair<pair<in
     vector<RationalNumber> w;
     int additional_terminal_num = terminal_num - 2 * k;
 
-    cout << "a" << endl;
-
     Matrix incidence_matrix(vertex_num + additional_terminal_num + 2, edge_num + terminal_num * additional_terminal_num + (vertex_num - terminal_num) + 1);
-
-    cout << incidence_matrix.row << " " << incidence_matrix.col << endl;
 
     for (int i = 0; i < edges.size(); i++)
     {
@@ -49,7 +45,6 @@ pair<Matrix, vector<RationalNumber>> create_matrix_for_spath(vector<pair<pair<in
         incidence_matrix.X[edges[i].first.second][i] = RationalNumber(-1, 1);
         w.push_back(edges[i].second);
     }
-    cout << "b" << endl;
 
     int cnt = 0;
     A.resize(A.size() + 1);
@@ -60,7 +55,6 @@ pair<Matrix, vector<RationalNumber>> create_matrix_for_spath(vector<pair<pair<in
         {
             for (int l = 0; l < A[j].size(); l++)
             {
-                //terminals.insert(A[j][l]);
                 incidence_matrix.X[A[j][l]][edge_num + cnt] = RationalNumber(1, 1);
                 incidence_matrix.X[vertex_num + i][edge_num + cnt] = -RationalNumber(-1, 1);
                 cnt++;
@@ -68,16 +62,11 @@ pair<Matrix, vector<RationalNumber>> create_matrix_for_spath(vector<pair<pair<in
             }
         }
         A[A.size() - 1].push_back(vertex_num + i);
-        //terminals.insert(n+i);
     }
-
-    cout << "c" << endl;
-    cout << vertex_num + additional_terminal_num << " " << edge_num + cnt + 1 << endl;
 
     incidence_matrix.X[vertex_num + additional_terminal_num][edge_num + cnt + 1] = RationalNumber(1, 1);
     incidence_matrix.X[vertex_num + additional_terminal_num + 1][edge_num + cnt + 1] = RationalNumber(-1, 1);
 
-    cout << "d" << endl;
     A.resize(A.size() + 1);
     A[A.size() - 1].push_back(vertex_num + additional_terminal_num);
     w.push_back(RationalNumber(0, 1));
@@ -85,17 +74,11 @@ pair<Matrix, vector<RationalNumber>> create_matrix_for_spath(vector<pair<pair<in
     A[A.size() - 1].push_back(vertex_num + additional_terminal_num + 1);
     w.push_back(RationalNumber(0, 1));
 
-    cout << "e" << endl;
-    //terminals.insert(n+ad);
-    //terminals.insert(n+ad+1);
-
     Matrix E2(2, 2);
     E2.X[0][0].setOne();
     E2.X[0][1].setZero();
     E2.X[1][0].setZero();
     E2.X[1][1].setOne();
-
-    cout << "f" << endl;
 
     incidence_matrix.output_matrix();
 
@@ -103,7 +86,6 @@ pair<Matrix, vector<RationalNumber>> create_matrix_for_spath(vector<pair<pair<in
 
     incidence_matrix.output_matrix();
 
-    //消していく
     for (int i = 0; i < A.size(); i++)
     {
         for (int j = 0; j < A[i].size(); j++)
@@ -124,33 +106,9 @@ pair<Matrix, vector<RationalNumber>> create_matrix_for_spath(vector<pair<pair<in
             }
         }
     }
-    cout << "result:" << endl;
     incidence_matrix.output_matrix();
 
     return make_pair(incidence_matrix, w);
-
-    /*
-    for(int i=0;i<incidence_matrix.col;i++){
-    	int node_num=incidence_matr
-        if(i<edges.size()){
-            if(terminals.find(edges[i].first)==terminals.end()){
-                if(terminals.find(edges[i].second)!=terminals.end()){
-
-                }
-            }
-            else{
-                if(terminals.find(edges[i].second)==terminals.end()){
-
-                }else{
-
-                }
-            }
-        }
-        else{
-
-        }
-    }
-    */
 }
 
 int main()
@@ -181,7 +139,6 @@ int main()
     {
         w[i] = p.second[i];
     }
-    //vector<ll> minimum_weight_parity_base=matroid_parity(p.first,w);
 
     return 0;
 }
