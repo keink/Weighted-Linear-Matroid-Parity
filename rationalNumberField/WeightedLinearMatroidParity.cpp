@@ -105,7 +105,7 @@ void Pivoting_around_M(Matrix &C, vector<pr> &M, vector<ll> &Ba, vector<ll> &NBa
 	flag_NBa.resize(C.col, false);
 	vector<ll> A;
 	vector<ll> B;
-\
+
 	for (ll i = 0; i < M.size(); i++)
 	{
 		A.push_back(M[i].first);
@@ -268,7 +268,7 @@ bool SourceLine_set(ll N, set<ll> &St, vector<bool> &inBase)
 	return ret;
 }
 
-// Get the path from v to a source vertex
+// Gets the path from v to a source vertex
 vector<ll> Path(ll v, vector<vector<ll>> &P)
 {
 	vector<ll> path;
@@ -624,7 +624,6 @@ vector<ll> Base_Greedy(Matrix &A, vector<Field> &p)
 	return ret;
 }
 
-
 void Blossom(ll v, ll u, Matrix &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl, Tree &Bl2, vector<ll> &K, vector<ll> &order, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, vector<ll> &NBa_sub, vector<bool> &inBase, vector<Field> &p, vector<ll> &rho, queue<ll> &que, ll N)
 {
 	if (!overflow)
@@ -700,7 +699,6 @@ void Blossom(ll v, ll u, Matrix &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl, 
 			c = path_v[i];
 			c_idx = i;
 			
-
 			for (ll j = path_u.size() - 1; j >= 0; j--)
 			{
 				if (K_c.find(path_u[j]) != K_c.end())
@@ -759,6 +757,7 @@ void Blossom(ll v, ll u, Matrix &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl, 
 		node *x = H->fchild;
 		while (x != NULL)
 		{
+			//TODO: update comment
 			//葉じゃない(blossom)なら
 			for (ll i = 0; i < x->ordering.size(); i++)
 			{
@@ -798,6 +797,7 @@ void Blossom(ll v, ll u, Matrix &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl, 
 		node *x = H->fchild;
 		while (x != NULL)
 		{
+			//TODO:update comment
 			//葉じゃない(blossom)なら
 			for (ll i = 0; i < x->ordering.size(); i++)
 			{
@@ -821,7 +821,6 @@ void Blossom(ll v, ll u, Matrix &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl, 
 				break;
 			}
 		}
-
 	}
 	H->normal = false;
 	H->routing.resize(vertex_number + 2);
@@ -1112,8 +1111,7 @@ void Blossom(ll v, ll u, Matrix &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl, 
 		}
 	}
 
-	//orderの値でソート(降順)
-	// Sorts by values of order
+	// Sorts by values of order (descending order)
 	sort(labeled.begin(), labeled.end(), comp);
 
 	// Determins <H for labeled vertices
@@ -2254,7 +2252,7 @@ vector<ll> Search(Matrix &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &N
 			}
 		}
 	}
-	////cout << "-----------Search end------------------" << endl;
+	//cout << "-----------Search end------------------" << endl;
 	return {};
 }
 
@@ -3472,7 +3470,6 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix &C, vector<ll> &Ba, vector<ll> &
 	}
 
 	//-----step5-----
-	//cout << "-----step5-----" << endl;
 	vector<pr> new_dummy_line;
 	for (ll I = 0; I < Blossoms_in_MaximalNormalBlossom.size(); I++)
 	{
@@ -3956,12 +3953,6 @@ vector<ll> matroid_parity(Matrix &A, Field w[])
 	//cout << "Base_Greedy start" << endl;
 	vector<ll> Ba = Base_Greedy(A, p);
 
-	cout << "Base:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
 	//cout << "Base Greedy end" << endl;
 	if (overflow)
 	{

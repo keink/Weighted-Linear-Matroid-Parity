@@ -50,40 +50,16 @@ bool overflow = false;
 ll pair_vertex_num=0;
 ll nonpair_vertex_num=0;
 
-//pivoting around a pair p
+// Pivoting around a pair p
 void Pivoting_around_p(Matrix2 &C, pr p, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, vector<ll> &NBa_sub, vector<bool> &inBase)
 {
 	ll x = p.first;
 	ll y = p.second; //x in B and y not in B
-	//cout << "x:" << x << " y:" << y << "number:";
-	//C.X[x][y].output();
-	//cout << endl;
-
-	/*
-	cout << "Ba:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-	cout << "Ba.size is " << Ba.size() << " NBa.size() is " << NBa.size() << endl;
-	cout << Ba[x] << " " << NBa[y] << endl;
-
-	cout << "C:" << endl;
-	C.output_matrix();
-	cout << endl;
-	*/
 
 	for (ll i = 0; i < C.row; i++)
 	{
 		for (ll j = 0; j < C.col; j++)
 		{
-			//cout << i << " " << j << endl;
 			if (i != x && j != y)
 			{
 				C.X[i][j] = C.X[i][j] - C.X[i][y] * C.X[x][j] / C.X[x][y];
@@ -128,41 +104,11 @@ void Pivoting_around_p(Matrix2 &C, pr p, vector<ll> &Ba, vector<ll> &NBa, vector
 	swap(Ba_sub[x_sub], NBa_sub[y_sub]);
 	swap(inBase[Ba[x]], inBase[NBa[y]]);
 
-	//num_type C_mx = C.maximum_number();
-	//cout << "the maximum absolute number in elements of C:";
-	//cout << C_mx << endl;
-
-	//maximum_absolute_num = max(maximum_absolute_num, C_mx);
-	/*
-	cout << "C:" << endl;
-	C.output_matrix();
-	cout << endl;
-	*/
 }
 
-//pivoting around a matching M
+// Pivoting around a matching M
 void Pivoting_around_M(Matrix2 &C, vector<pr> &M, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, vector<ll> &NBa_sub, vector<bool> &inBase)
 {
-	//cout << "-----pivoting around M start-----" << endl;
-
-	////
-	/*
-	cout << "Ba:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-
-	cout << "C:" << endl;
-	C.output_matrix();
-	cout << endl;
-	*/
 
 	vector<bool> flag_Ba;
 	vector<bool> flag_NBa;
@@ -170,11 +116,9 @@ void Pivoting_around_M(Matrix2 &C, vector<pr> &M, vector<ll> &Ba, vector<ll> &NB
 	flag_NBa.resize(C.col, false);
 	vector<ll> A;
 	vector<ll> B;
-	//C.output_matrix();
-	//cout << endl;
+
 	for (ll i = 0; i < M.size(); i++)
 	{
-		//cout << M[i].first << " " << M[i].second << endl;
 		A.push_back(M[i].first);
 		B.push_back(M[i].second);
 		flag_Ba[M[i].first] = true;
@@ -202,32 +146,7 @@ void Pivoting_around_M(Matrix2 &C, vector<pr> &M, vector<ll> &Ba, vector<ll> &NB
 	Matrix2 gamma = C.sub_matrix(NA, B);
 	Matrix2 delta = C.sub_matrix(NA, NB);
 
-	/////
-	/*
-	cout << "alpha:" << endl;
-	alpha.output_matrix();
-	matrix_inverse(alpha).output_matrix();
-	*/
-	/////
-
 	Matrix2 alpha_inverse = matrix2_inverse(alpha);
-
-	/////
-	/*
-	bool flag = 1;
-	for(ll i=0;i<alpha_inverse.row;i++){
-		for(ll j=0;j<alpha_inverse.col;j++){
-			if(!alpha_inverse.X[i][j].isZero())
-			{
-				flag=0;break;
-			}
-		}
-	}
-	if(flag){
-		return false;
-	}
-	*/
-	/////
 
 	alpha = alpha_inverse;
 	Matrix2 beta_ = alpha_inverse * beta;
@@ -266,49 +185,14 @@ void Pivoting_around_M(Matrix2 &C, vector<pr> &M, vector<ll> &Ba, vector<ll> &NB
 	{
 		swap(Ba[M[i].first], NBa[M[i].second]);
 		swap(inBase[Ba[M[i].first]], inBase[NBa[M[i].second]]);
-		//swap(Ba[A[i]],NBa[B[i]])
 	}
-	/*
-	cout << "Ba:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-	cout << endl;
-	cout << "C:" << endl;
-	C.output_matrix();
-	cout << endl;
-	*/
-	//num_type C_mx = C.maximum_number();
-	//cout << "the maximum absolute number in elements of C:";
-	//cout << C_mx << endl;
-
-	//maximum_absolute_num = max(maximum_absolute_num, C_mx);
-
-	//return true;
-	//cout << "-----pivoting around M end------" << endl;
 }
 
 
-//get the mate of i
+// Returns the mate of i
+// Returns i if i is not paired
 ll mate(ll i)
 {
-	/*
-	if (i % 2 == 0)
-	{
-		return i + 1;
-	}
-	else
-	{
-		return i - 1;
-	}
-	*/
 	if(i<pair_vertex_num)
 	{
 		if(i%2==0){
@@ -342,25 +226,16 @@ ll mate(ll i)
 	}
 }
 
+// Judges if {i, j} is a line or not
 bool isLine(ll i, ll j)
 {
 	if(mate(i)==j&&llabs(i-j)==1){
 		return true;
 	}
 	return false;
-	/*
-	if (llabs(i - j) == 1 && min(i, j) % 2 == 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-	*/
 }
 
-//judge if the vertex i is a single vertex or not
+// Judges if the vertex i is a single vertex or not
 bool isSingle(ll i, vector<ll> &K)
 {
 	if (K[i] == -i)
@@ -373,7 +248,7 @@ bool isSingle(ll i, vector<ll> &K)
 	}
 }
 
-//judge if K(u) and K(v) matches each other
+// Judges if K(u) and K(v) matches each other
 bool judge_K(ll u, ll v, vector<ll> &K)
 {
 	if (K[u] > 0 && K[v] > 0)
@@ -390,8 +265,8 @@ bool judge_K(ll u, ll v, vector<ll> &K)
 	}
 }
 
-//judge if there exists a source line in a given vector
-//Note: N is the number of vertices included in lines.
+// Judges if there exists a source line in a given vector
+// Note: N is the number of vertices included in lines.
 bool SourceLine_vector(ll N, vector<ll> &Ba, vector<bool> &inBase)
 {
 	bool ret = false;
@@ -405,7 +280,7 @@ bool SourceLine_vector(ll N, vector<ll> &Ba, vector<bool> &inBase)
 	return ret;
 }
 
-//judge if there exists a source line in a given set
+// Judges if there exists a source line in a given set
 bool SourceLine_set(ll N, set<ll> &St, vector<bool> &inBase)
 {
 	bool ret = false;
@@ -419,9 +294,10 @@ bool SourceLine_set(ll N, set<ll> &St, vector<bool> &inBase)
 	return ret;
 }
 
+// Judtes if u is a paired vertex or not
 bool isNotPair(ll u,ll N)
 {
-	if (u >= pair_vertex_num && u< pair_vertex_num+nonpair_vertex_num)
+	if (u >= pair_vertex_num && u < pair_vertex_num+nonpair_vertex_num)
 	{
 		return true;
 	}
@@ -431,22 +307,9 @@ bool isNotPair(ll u,ll N)
 	}
 }
 
-//get the path from v to a source vertex
+// Gets the path from v to a source vertex
 vector<ll> Path(ll v, vector<vector<ll>> &P)
 {
-	//cout << "-----Path start-----" << endl;
-	/* cout << "v is " << v << endl;
-	cout << "P:" << endl;
-	for (ll i = 0; i < P.size(); i++)
-	{
-		cout << "P[" << i << "]:";
-		for (ll j = 0; j < P[i].size(); j++)
-		{
-			cout << P[i][j] << " ";
-		}
-		cout << endl;
-	} */
-
 	vector<ll> path;
 	path.push_back(v);
 	ll cur = v;
@@ -459,8 +322,6 @@ vector<ll> Path(ll v, vector<vector<ll>> &P)
 		cur = P[cur][0];
 	}
 
-	//cout << "-----path end-----" << endl;
-
 	return path;
 }
 
@@ -469,7 +330,7 @@ bool comp(const pr &a, const pr &b)
 	return a.first > b.first;
 }
 
-//add new vertex to V
+// Adds new vertex to V
 ll new_vertex(vector<ll> &K, vector<vector<ll>> &P, Matrix2 &C, Matrix &Q, vector<ll> &order, vector<ll> &rho, vector<bool> &inBase, vector<Field> &p)
 {
 	K.resize(K.size() + 1);
@@ -491,41 +352,9 @@ ll new_vertex(vector<ll> &K, vector<vector<ll>> &P, Matrix2 &C, Matrix &Q, vecto
 	return vertex_number - 1;
 }
 
-//remove vertex from V
+// Removes vertex from V
 void remove_vertex(ll u, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, vector<ll> &NBa_sub, vector<bool> &inBase, vector<ll> &order, Matrix2 &C)
 {
-	
-	//cout << "-----remove vertex start-----" << endl;
-	/////
-	/*
-	cout << "remove " << u << endl;
-	cout << "Ba:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-	cout << endl;
-	cout << "Ba_sub:";
-	for (ll i = 0; i < Ba_sub.size(); i++)
-	{
-		cout << Ba_sub[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa_sub:";
-	for (ll i = 0; i < NBa_sub.size(); i++)
-	{
-		cout << NBa_sub[i] << " ";
-	}
-	cout << endl;
-	*/
-	
-	/////
 	ll u_idx;
 	if (inBase[u])
 	{
@@ -539,7 +368,7 @@ void remove_vertex(ll u, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, ve
 		}
 		Ba.erase(Ba.begin() + u_idx);
 		Ba.shrink_to_fit();
-		//cout << u_idx << endl; /////
+
 		ll u_sub_idx;
 		if (Ba_sub == Ba)
 		{
@@ -569,7 +398,6 @@ void remove_vertex(ll u, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, ve
 				break;
 			}
 		}
-		//cout << u_idx << endl; /////
 
 		NBa.erase(NBa.begin() + u_idx);
 		NBa.shrink_to_fit();
@@ -596,42 +424,11 @@ void remove_vertex(ll u, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, ve
 		}
 		C.col--;
 	}
-
-	/*
-	cout << "remove " << u << endl;
-	cout << "Ba:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-	cout << endl;
-	cout << "Ba_sub:";
-	for (ll i = 0; i < Ba_sub.size(); i++)
-	{
-		cout << Ba_sub[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa_sub:";
-	for (ll i = 0; i < NBa_sub.size(); i++)
-	{
-		cout << NBa_sub[i] << " ";
-	}
-	cout << endl;
-	*/
-	//cout << "-----remove vertex end------" << endl;
-	
 }
 
-//expand a blossom H
+// Expands a blossom H
 void Expand(Matrix2 &C, node *H, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, vector<ll> &NBa_sub, vector<bool> &inBase, vector<ll> &order, Tree &Bl)
 {
-	//cout << "-----Expand start------" << endl;
 	if (!H->normal)
 	{
 		tree_delete(Bl, H->key);
@@ -640,10 +437,6 @@ void Expand(Matrix2 &C, node *H, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba
 	{
 		ll t = H->tip;
 		ll b = H->bud;
-
-		/////
-		//cout<<t<<" "<<b<<endl;
-		/////
 
 		pr p;
 		ll t_idx, b_idx;
@@ -687,17 +480,14 @@ void Expand(Matrix2 &C, node *H, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba
 				}
 			}
 			p = pr(b_idx, t_idx);
-			//p.first=b; p.second=t;
 		}
 
 		Pivoting_around_p(C, p, Ba, NBa, Ba_sub, NBa_sub, inBase);
 
-		//↓Search in Blossomの時だけ関係
-
+		// ↓ The following code is relevant  only when "Search in Blossom" is being executed. 
 		vector<node *> H_ancestors = ancestors(Bl, H);
 		for (ll i = 0; i < H_ancestors.size(); i++)
 		{
-			//cout << "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" << endl;
 			node *Hi = H_ancestors[i];
 			ll idx;
 			for (ll j = 0; j < Hi->ordering.size(); j++)
@@ -727,10 +517,9 @@ void Expand(Matrix2 &C, node *H, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba
 		remove_vertex(t, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
 		remove_vertex(b, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
 	}
-	//cout << "-----Expand end-----" << endl;
 }
 
-//judge if there exists an edge between u and v
+// Judges if there exists an edge between u and v
 bool existsEdge(ll u, ll v, Matrix2 &C, Matrix &Q, vector<ll> &Ba, vector<ll> &NBa, vector<bool> &inBase, vector<Field> &p)
 {
 	ll u_idx;
@@ -796,8 +585,6 @@ bool existsEdge(ll u, ll v, Matrix2 &C, Matrix &Q, vector<ll> &Ba, vector<ll> &N
 
 set<ll> GaussJordan2(Matrix2 &A)
 {
-	//cout << "GJ start" << endl;
-
 	ll c = A.col;
 	ll r = A.row;
 
@@ -830,7 +617,7 @@ set<ll> GaussJordan2(Matrix2 &A)
 
 		Field2 a = A.X[cnt][j].inverse();
 
-		//multiply by a so that A[j][j]=1
+		// Multiplies by a so that A[j][j]=1
 		A.row_multiply(cnt, a);
 
 		for (ll i = 0; i < r; i++)
@@ -843,15 +630,13 @@ set<ll> GaussJordan2(Matrix2 &A)
 		}
 		cnt++;
 	}
-	//cout << "GJ end" << endl;
 
 	return ret;
 }
 
+// Gets a base of a given matrix A by greedy method
 vector<ll> Base_Greedy(Matrix2 &A, vector<Field> &p)
 {
-	//cout<<"Base_Greedy start"<<endl;
-
 	Matrix2 B = A;
 	vector<pair<Field, ll>> M;
 	for (ll i = 0; i < A.col; i++)
@@ -859,12 +644,6 @@ vector<ll> Base_Greedy(Matrix2 &A, vector<Field> &p)
 		M.push_back(make_pair(p[i], i));
 	}
 	sort(M.begin(), M.end());
-
-	/* for (ll i = 0; i < A.col; i++)
-	{
-		M[i].first.output();
-		cout << " " << M[i].second << endl;
-	} */
 
 	for (ll j = 0; j < A.col; j++)
 	{
@@ -881,8 +660,6 @@ vector<ll> Base_Greedy(Matrix2 &A, vector<Field> &p)
 		ret.push_back(M[*itr].second);
 	}
 
-	//cout<<"BG end"<<endl;
-
 	return ret;
 }
 
@@ -893,42 +670,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		Blossom_num++;
 	}
 
-	//cout<<"---------------------"<<endl;
-	//cout<<"Blossom("<<u<<","<<v<<")"<<endl;
-	/*
-	cout << "Blossom start" << endl;
-	cout << "ordering_number:" << ordering_number << endl;
-	cout << "Ba:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-	cout << endl;
-
-	for (ll i = 0; i < P.size(); i++)
-	{
-		cout << "P[" << i << "]:";
-		for (ll j = 0; j < P[i].size(); j++)
-		{
-			cout << P[i][j] << " ";
-		}
-		cout << endl;
-	}
-	*/
-
-	/* for (ll i = 0; i < K.size(); i++)
-		{
-			cout << "i:" << i << " K[i]:" << K[i] << endl;
-		} */
-
-	/* cout << "C:" << endl;
-	C.output_matrix(); */
 	//-----step1-----
 	vector<ll> path_u;
 	vector<ll> path_v;
@@ -936,29 +677,8 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 	path_u = Path(u, P);
 	reverse(path_u.begin(), path_u.end());
 
-	/////
-	/*
-	cout << "path_u:";
-	for (ll i = 0; i < path_u.size(); i++)
-	{
-		cout << path_u[i] << " ";
-	}
-	*/
-	/////
 	path_v = Path(v, P);
 	reverse(path_v.begin(), path_v.end());
-
-	/////
-	/*
-	cout << endl;
-	cout << "path_v:";
-	for (ll i = 0; i < path_v.size(); i++)
-	{
-		cout << path_v[i] << " ";
-	}
-	cout << endl;
-	*/
-	/////
 
 	set<ll> st_u;
 	for (ll i = 0; i < path_u.size(); i++)
@@ -971,8 +691,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		st_v.insert(path_v[i]);
 	}
 
-	//cout<<"path_u.size:"<<path_u.size()<<endl;
-
 	ll c;
 	ll d;
 	ll c_idx;
@@ -982,8 +700,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 	{
 		node *H;
 		ll cur = path_v[i];
-		//cout << "cur is " << cur << endl;
-		//cout << "K[cur] is " << K[cur] << endl;
 
 		set<ll> K_c;
 
@@ -991,24 +707,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		{
 			H = tree_search(Bl, K[cur]).first;
 
-			//cout << "H->key is " << H->key << endl;
-
-			/*
-			for (ll j = 0; j < H->ordering.size(); j++)
-			{
-				//P(u)の頂点に含まれてたら
-				if (st_u.find(H->ordering[j]) != st_u.end())
-				{
-					ope = 1;
-					break;
-				}
-			}
-			if(H->normal){
-				if(st_u.find(H->bud)!=st_u.end()){
-					ope=1;break;
-				}
-			}
-			*/
 			for (ll j = 0; j < H->ordering.size(); j++)
 			{
 				K_c.insert(H->ordering[j]);
@@ -1020,15 +718,7 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		}
 		else
 		{
-			//このときcurはsingle vertex
-			//H = tree_search(Bl, -K[cur]).first;
-
-			//cout << "H->key is " << H->key << endl;
-			/*
-			if(st_u.find(H->ordering[cur])!=st_u.end()||st_u.find(H->ordering[mate(cur)])!=st_u.end()){
-				ope=1; break;
-			}
-			*/
+			// In this case, cur is a single vertex.
 			K_c.insert(cur);
 			K_c.insert(mate(cur));
 		}
@@ -1043,54 +733,13 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			}
 		}
 
-		/////
-		/*
-		cout << "K(c):";
-		for (auto itr = K_c.begin(); itr != K_c.end(); itr++)
-		{
-			cout << *itr << " ";
-		}
-		cout << endl;
-		*/
-		/////
-
 		if (ope == 1)
 		{
 			c = path_v[i];
-			//cout << "c is " << c << endl;
 			c_idx = i;
-			/*
-			set<ll> st2;
-			for (ll j = 0; j < H->ordering.size(); j++)
-			{
-				st2.insert(H->ordering[j]);
-			}
-			if(H->normal){
-				st2.insert(H->bud);
-			}
-			
-			for (ll j = path_u.size(); j >= 0; j--)
-			{
-				if (st_2.find(path_u[j]) != st2.end())
-				{
-					d = path_u[j];
-					d_idx = j;
-					break;
-				}
-			}
-			*/
-			/////
-			/*
-			cout<<"path_u:";
-			for(ll j=path_u.size()-1;j>=0;j--)
-			{
-				cout<<path_u[j]<<" ";
-			}
-			cout<<endl;
-			*/
+
 			for (ll j = path_u.size() - 1; j >= 0; j--)
 			{
-				//cout<<"path_u[j]:"<<path_u[j]<<endl;
 				if (K_c.find(path_u[j]) != K_c.end())
 				{
 					d = path_u[j];
@@ -1098,14 +747,9 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 					break;
 				}
 			}
-			//cout << "d is " << d << endl;
 			break;
 		}
 	}
-	//cout<<"c is "<<c<<endl;
-	//cout<<"d is "<<d<<endl;
-
-	//ここまでOK
 
 	ll r = -1;
 	ll r_idx = -1;
@@ -1114,7 +758,7 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 	{
 		if (isSingle(path_v[i], K))
 		{
-			children.insert(path_v[i]); //自身だけで大丈夫かも
+			children.insert(path_v[i]);
 			children.insert(mate(path_v[i]));
 		}
 		else
@@ -1139,17 +783,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 	node *H;
 	if (c == d)
 	{
-		/////OK
-		/*
-		cout << "child node:";
-		for (auto itr = children.begin(); itr != children.end(); itr++)
-		{
-			cout << *itr << " ";
-		}
-		cout << endl;
-		*/
-		/////
-
 		r = c;
 		r_idx = c_idx;
 		Field q_H;
@@ -1159,11 +792,11 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 
 		H = tree_search(Bl, blossom_number - 1 + Bl.num).first;
 
-		//rを求めたい
+		// Wants to find r
 		node *x = H->fchild;
-		//set<ll> H_elements;
 		while (x != NULL)
 		{
+			// TODO: update comment
 			//葉じゃない(blossom)なら
 			for (ll i = 0; i < x->ordering.size(); i++)
 			{
@@ -1179,20 +812,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 
 			x = x->next;
 		}
-
-		/////
-		/*
-		cout << "key of new blossom is ";
-		cout << H->key << endl;
-
-		cout << "elements of new blossom: ";
-		for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
-		{
-			cout << *itr << " ";
-		}
-		cout << endl;
-		*/
-		/////
 	}
 	else
 	{
@@ -1206,17 +825,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			children.insert(K[c]);
 		}
 
-		/////OK
-		/*
-		cout << "child node:";
-		for (auto itr = children.begin(); itr != children.end(); itr++)
-		{
-			cout << *itr << " ";
-		}
-		cout << endl;
-		*/
-		/////
-
 		Field q_H;
 		q_H.setZero();
 		blossom_insert(Bl, blossom_number, children, q_H);
@@ -1224,17 +832,14 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 
 		H = tree_search(Bl, blossom_number - 1 + Bl.num).first;
 
-		//rを求めたい
+		// Wants to find r
 		node *x = H->fchild;
-		//set<ll> H_elements;
 		while (x != NULL)
 		{
-			//cout << endl;
-			//cout << "x->key is " << x->key << endl;
+			//TODO: update comment
 			//葉じゃない(blossom)なら
 			for (ll i = 0; i < x->ordering.size(); i++)
 			{
-				//cout << "x->ordering" << x->ordering[i] << " ";
 				H_elements.insert(x->ordering[i]);
 			}
 			if (!isLeaf(Bl, x))
@@ -1255,21 +860,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				break;
 			}
 		}
-
-		/////
-		/*
-		cout << "r is " << r << endl;
-		cout << "key of new blossom is ";
-		cout << H->key << endl;
-
-		cout << "elements of new blossom: ";
-		for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
-		{
-			cout << *itr << " ";
-		}
-		cout << endl;
-		*/
-		/////
 	}
 	H->normal = false;
 	H->routing.resize(vertex_number + 2);
@@ -1277,7 +867,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 	//-----step2-----
 	ll g = path_v[r_idx + 1];
 
-	/////!!!!!!!!!hが存在しない可能性
 	ll h;
 	if (r_idx + 1 < path_u.size())
 	{
@@ -1288,23 +877,13 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		h = g;
 	}
 
-	/////
-	/*
-	cout << "r is " << r << endl;
-	cout << "g is " << g << endl;
-	cout << "h is " << h << endl;
-	*/
-	/////
-
 	if (!SourceLine_set(N, H_elements, inBase))
 	{
 		//cout << "There is no source line. New blossom is a normal blossom." << endl;
-		//ll g = path_v[r_idx + 1];
 		H->tip = new_vertex(K, P, C, Q, order, rho, inBase, p);
 		H->bud = new_vertex(K, P, C, Q, order, rho, inBase, p);
 
-		/////
-		//↓Search _in_blossomの時だけ関係
+		// ↓ The following code is relevant  only when "Search in Blossom" is being executed. 
 		vector<node *> H_ancestors = ancestors(Bl2, H);
 		for (ll i = 0; i < H_ancestors.size(); i++)
 		{
@@ -1312,11 +891,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			Hi->ordering.push_back(H->tip);
 			Hi->ordering.push_back(H->bud);
 		}
-		/////
-		/*
-		cout << "the tip of H is " << H->tip << " and the bud is " << H->bud << endl;
-		*/
-		/////
 
 		ll t = H->tip;
 		ll b = H->bud;
@@ -1324,7 +898,7 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 
 		for (ll i = 0; i < Ba.size(); i++)
 		{
-			//q(H)=0とするからこれでよい
+			// It'sOK since q(H) will be set as 0
 			Q.X[Ba[i]][H->tip] = Q.X[Ba[i]][Ba[i]];
 			Q.X[H->tip][Ba[i]] = Q.X[Ba[i]][Ba[i]];
 
@@ -1340,15 +914,11 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			Q.X[H->bud][NBa[i]] = Q.X[NBa[i]][NBa[i]];
 		}
 
-		//↓Search_in_Blossomの時だけ関係
+		// ↓ The following code is relevant  only when "Search in Blossom" is being executed. 
 		if (Bl.root->key != -1)
 		{
 			node *Hj = Bl.root;
-			//cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << endl;
 			ll tj = Hj->tip;
-			//cout << Hj->key << endl;
-			//Hj->q.output();
-			//cout << endl;
 
 			for (ll i = 0; i < Ba.size(); i++)
 			{
@@ -1374,32 +944,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			Q.X[H->bud][H->bud] = Q.X[tj][tj];
 			Q.X[H->tip][H->bud].setZero();
 			Q.X[H->bud][H->tip].setZero();
-			/*	
-				for(ll i=0;i<Ba.size();i++){
-					ll k=Ba[i];
-					Q.X[k][H->tip]+=Hj->q;
-					Q.X[H->tip][k]+=Hj->q;
-					Q.X[k][H->bud]+=Hj->q;
-					Q.X[H->bud][k]+=Hj->q;
-				}
-				for(ll i=0;i<NBa.size();i++){
-					ll k=NBa[i];
-					Q.X[k][H->tip]+=Hj->q;
-					Q.X[H->tip][k]+=Hj->q;
-					Q.X[k][H->bud]+=Hj->q;
-					Q.X[H->bud][k]+=Hj->q;
-				}
-				for(ll i=0;i<Hj->ordering.size();i++){
-					ll k=Hj->ordering[i];
-					Q.X[k][H->tip]-=Hj->q.Double();
-					Q.X[H->tip][k]-=Hj->q.Double();
-					Q.X[k][H->bud]-=Hj->q.Double();
-					Q.X[H->bud][k]-=Hj->q.Double();
-				}
-				Q.X[H->bud][H->bud]=Hj->q;
-				Q.X[H->tip][H->tip]=Hj->q;
-				*/
-			//cout << "^^^^^^^^^^^^^^^^^^^^^^^^^" << endl;
 		}
 
 		if (inBase[r] == 1 && inBase[g] == 0)
@@ -1407,17 +951,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			Ba.push_back(H->bud);
 			NBa.push_back(H->tip);
 
-			//cout << "Ba:";
-			/*
-			for (ll i = 0; i < Ba.size(); i++)
-			{
-				cout << Ba[i] << " ";
-			}
-			cout << endl;
-			cout << "Ba size is ";
-			cout << Ba.size() << endl;
-			*/
-
 			C.X.resize(C.row + 1);
 			C.row++;
 			for (ll i = 0; i < C.row; i++)
@@ -1425,58 +958,12 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				C.X[i].resize(C.col + 1);
 			}
 			C.col++;
-			/////
-			/*
-			cout << "size of C update:" << endl;
-			C.output_matrix();
-			cout << endl;
-			*/
-			/////
 
 			Ba_sub.push_back(H->bud);
 			NBa_sub.push_back(H->tip);
 
 			inBase[H->bud] = true;
 			inBase[H->tip] = false;
-			/*
-			
-			for (ll i = 0; i < Ba.size(); i++)
-			{
-				//q(H)=0とするからこれでよい
-				Q.X[Ba[i]][H->tip] = Q.X[Ba[i]][Ba[i]];
-				Q.X[H->tip][Ba[i]] = Q.X[Ba[i]][Ba[i]];
-
-				Q.X[Ba[i]][H->bud] = Q.X[Ba[i]][Ba[i]];
-				Q.X[H->bud][Ba[i]] = Q.X[Ba[i]][Ba[i]];
-			}
-			for (ll i = 0; i < NBa.size(); i++)
-			{
-				Q.X[NBa[i]][H->tip] = Q.X[NBa[i]][NBa[i]];
-				Q.X[H->tip][NBa[i]] = Q.X[NBa[i]][NBa[i]];
-
-				Q.X[NBa[i]][H->bud] = Q.X[NBa[i]][NBa[i]];
-				Q.X[H->bud][NBa[i]] = Q.X[NBa[i]][NBa[i]];
-			}
-			*/
-
-			/////
-			/* cout << "Q was updated: " << endl;
-			Q.output_matrix();
-			cout << endl; */
-			/////
-
-			//Q.X[H->tip][H->tip].setZero();
-
-			//update C
-			/*
-			C.X.resize(C.row + 1);
-			C.row++;
-			for (ll i = 0; i < C.row; i++)
-			{
-				C.X[i].resize(C.col + 1);
-			}
-			C.col++;
-			*/
 
 			ll b_idx = Ba.size() - 1;
 			ll t_idx = NBa.size() - 1;
@@ -1497,7 +984,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				}
 			}
 
-			//多分このままでSearch_in_blossomでもいける
 			for (ll i = 0; i < C.col; i++)
 			{
 				//if NBa[i] in H\B*
@@ -1515,34 +1001,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			}
 			C.X[b_idx][t_idx] = C.X[r_idx][g_idx];
 
-			/* cout << "C was update: " << endl;
-			C.output_matrix();
-			cout << endl; */
-
-			/////ここはOK
-
-			/*
-			for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
-			{
-				if (inBase[*itr] == 0)
-				{
-					ll idx = NBa_inverse[*itr];
-					C.X[Ba.size() - 1][idx] = C.X[Ba_inverse[r]][idx];
-				}
-			}
-			for (ll i = 0; i < Ba.size(); i++)
-			{
-				if (H_elements.find(Ba[i]) != H_elements.end())
-				{
-					C.X[i][NBa.size() - 1] = C.X[i][NBa_inverse[g]];
-				}
-			}
-			C.X[Ba.size() - 1][NBa.size() - 1] = C.X[Ba_inverse[r]][NBa_inverse[g]];
-			*/
-
-			//p.resize(p.size() + 2);
-
-			//!!!!!Qの更新
 			p[b] = p[r] + Q.X[r][b];
 			p[t] = p[b];
 		}
@@ -1551,16 +1009,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			Ba.push_back(H->tip);
 			NBa.push_back(H->bud);
 
-			/*
-			cout << "Ba:";
-			for (ll i = 0; i < Ba.size(); i++)
-			{
-				cout << Ba[i] << " ";
-			}
-			cout << endl;
-			/* cout << "Ba size is ";
-			cout << Ba.size() << endl; */
-
 			C.X.resize(C.row + 1);
 			C.row++;
 			for (ll i = 0; i < C.row; i++)
@@ -1568,11 +1016,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				C.X[i].resize(C.col + 1);
 			}
 			C.col++;
-			/*
-			cout << "size of C update:" << endl;
-			C.output_matrix();
-			cout << endl;
-			*/
 
 			Ba_sub.push_back(H->tip);
 			NBa_sub.push_back(H->bud);
@@ -1580,61 +1023,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			inBase[H->tip] = true;
 			inBase[H->bud] = false;
 
-			/*
-			for (ll i = 0; i < Ba.size(); i++)
-			{
-				//q(H)=0とするからこれでよい
-				Q.X[Ba[i]][H->tip] = Q.X[Ba[i]][Ba[i]];
-				Q.X[H->tip][Ba[i]] = Q.X[Ba[i]][Ba[i]];
-
-				Q.X[Ba[i]][H->bud] = Q.X[Ba[i]][Ba[i]];
-				Q.X[H->bud][Ba[i]] = Q.X[Ba[i]][Ba[i]];
-			}
-			for (ll i = 0; i < NBa.size(); i++)
-			{
-				Q.X[NBa[i]][H->tip] = Q.X[NBa[i]][NBa[i]];
-				Q.X[H->tip][NBa[i]] = Q.X[NBa[i]][NBa[i]];
-
-				Q.X[NBa[i]][H->bud] = Q.X[NBa[i]][NBa[i]];
-				Q.X[H->bud][NBa[i]] = Q.X[NBa[i]][NBa[i]];
-			}
-			*/
-
-			/////
-			/* cout << "Q was updated: " << endl;
-			Q.output_matrix();
-			cout << endl; */
-			/////
-
-			//update C
-			/*
-			C.X.resize(C.row + 1);
-			C.row++;
-			for (ll i = 0; i < C.row; i++)
-			{
-				C.X[i].resize(C.col + 1);
-			}
-			C.col++;
-			*/
-
-			/*
-			for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
-			{
-				if (inBase[*itr] == 1)
-				{
-					ll idx = Ba_inverse[*itr];
-					C.X[idx][NBa.size() - 1] = C.X[idx][NBa_inverse[g]];
-				}
-			}
-			for (ll i = 0; i < NBa.size(); i++)
-			{
-				if (H_elements.find(NBa[i]) != H_elements.end())
-				{
-					C.X[Ba.size() - 1][i] = C.X[Ba_inverse[g]][i];
-				}
-			}
-			C.X[Ba.size() - 1][NBa.size() - 1] = C.X[Ba_inverse[g]][NBa_inverse[r]];
-			*/
 			ll t_idx = Ba.size() - 1;
 			ll b_idx = NBa.size() - 1;
 			ll r_idx;
@@ -1670,73 +1058,13 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			}
 			C.X[t_idx][b_idx] = C.X[g_idx][r_idx];
 
-			/////
-			/* cout << "C was update: " << endl;
-			C.output_matrix();
-			cout << endl; */
-			/////
-
-			//!!!!!Qの更新
 			p[b] = p[r] - Q.X[r][b];
 			p[t] = p[b];
 		}
 
-		/////
-		/////
-
 		Pivoting_around_p(C, pr(Ba.size() - 1, NBa.size() - 1), Ba, NBa, Ba_sub, NBa_sub, inBase);
 
-		/*
-		cout << "Ba:";
-		for (ll i = 0; i < Ba.size(); i++)
-		{
-			cout << Ba[i] << " ";
-		}
-		cout << endl;
-		cout << "NBa:";
-		for (ll i = 0; i < NBa.size(); i++)
-		{
-			cout << NBa[i] << " ";
-		}
-		cout << endl;
-		cout << "Ba_sub:";
-		for (ll i = 0; i < Ba_sub.size(); i++)
-		{
-			cout << Ba_sub[i] << " ";
-		}
-		cout << endl;
-		cout << "NBa_sub:";
-		for (ll i = 0; i < NBa_sub.size(); i++)
-		{
-			cout << NBa_sub[i] << " ";
-		}
-		cout << endl;
-		*/
-
 		//-----step3-----
-		//ll h = path_u[r_idx + 1];
-
-		//gとｈはunlabeled
-		/*
-		auto itr = P[mate(g)].begin() + 1;
-		P[mate(g)].insert(itr, H->bud);
-		itr++;
-		P[mate(g)].insert(itr, H->tip);
-
-		if (h != g)
-		{
-			auto itr = P[mate(h)].begin() + 1;
-			P[mate(h)].insert(itr, H->bud);
-			itr++;
-			P[mate(h)].insert(itr, H->tip);
-		}
-		*/
-
-		//cout << "replacing path start";
-		/* for (ll i = 0; i < K.size(); i++)
-		{
-			cout << "i:" << i << " K[i]:" << K[i] << endl;
-		} */
 		if (!P[mate(g)].empty())
 		{
 			P[mate(g)][0] = t;
@@ -1744,23 +1072,8 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		else
 		{
 			vector<node *> des = descendant(Bl, H);
-
-			/*
-			node *H_g = tree_search(Bl, K[g]).first;
-			auto itr = P[H_g->bud].begin() + 1;
-			itr = P[H_g->bud].insert(itr, H->bud);
-			itr++;
-			itr = P[H_g->bud].insert(itr, H->tip);
-
-			H->routing[H_g->bud].reserve(P[H_g->bud].size() - 2);
-			itr = H->routing[H_g->bud].insert(H->routing[H_g->bud].begin(), P[H_g->bud].begin() + 2, P[H_g->bud].end());
-			*/
 		}
 
-		/* for (ll i = 0; i < K.size(); i++)
-		{
-			cout << "i:" << i << " K[i]:" << K[i] << endl;
-		} */
 		if (!P[mate(h)].empty())
 		{
 			P[mate(h)][0] = t;
@@ -1798,41 +1111,11 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			}
 		}
 
-		//cout << "replacing path end" << endl;
-
-		//label t with P(t)=P(r)bt
-		//P.resize(P.size() + 2);
+		// Labels t with P(t)=P(r)bt
 		P[t].push_back(r);
 		P[t].push_back(b);
 
-		/////
-		/* cout << endl;
-		cout << "before step4" << endl;
-		for (ll i = 0; i < P.size(); i++)
-		{
-			cout << "path i:";
-			for (ll j = 0; j < P[i].size(); j++)
-			{
-				cout << P[i][j] << " ";
-			}
-			cout << endl;
-		} */
-		/////
-
-		//extend the ordering
-
-		//order.resize(order.size() + 2, INF);
-		//order[H->bud] = INF;
-		//cout << "before extending" << endl;
-		/*
-		cout << "ordeer:";
-		for (ll i = 0; i < order.size(); i++)
-		{
-			cout << order[i] << " ";
-		}
-		cout << endl;
-		*/
-		/////
+		// Extends the ordering
 		for (ll i = 0; i < order.size(); i++)
 		{
 			if (order[i] < INF && order[i] > order[r])
@@ -1843,19 +1126,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		order[H->tip] = order[r] + 1;
 		ordering_number++;
 
-		/////
-		/*
-		cout << endl;
-		cout << "after extend the ordering <" << endl;
-		cout << "order:";
-		for (ll i = 0; i < order.size(); i++)
-		{
-			cout << order[i] << " ";
-		}
-		cout << endl;
-		*/
-		/////
-
 		for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
 		{
 			if (rho[*itr] == r)
@@ -1863,54 +1133,14 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				rho[*itr] = H->tip;
 			}
 		}
-		//rho[t]=-1;
 		rho[b] = r;
-		//rho.push_back(-1);
-		//rho.push_back(r);
 
-		/////
-		/* cout << "rho:";
-		for (ll i = 0; i < rho.size(); i++)
-		{
-			cout << rho[i] << " ";
-		}
-		cout << endl; */
-
-		/* cout << "inBase:";
-		for (ll i = 0; i < inBase.size(); i++)
-		{
-			if (inBase[i])
-			{
-				cout << "true"
-					 << " ";
-			}
-			else
-			{
-				cout << "false"
-					 << " ";
-			}
-		}
-		cout << endl; */
-		/////
 		H_elements.insert(H->tip);
 	}
 
 	//-----step4-----
-	//cout << endl;
-	//cout << "-----step4-----" << endl;
 	vector<pr> unlabeled;
 	vector<pr> labeled;
-
-	/////
-	/*
-	cout << "elements of H are:";
-	for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
-	{
-		cout << *itr << " ";
-	}
-	cout << endl;
-	*/
-	/////
 
 	for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
 	{
@@ -1920,43 +1150,27 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		}
 	}
 
-	//orderの値でソート(降順)
+	// Sorts by values of order (descending order)
 	sort(labeled.begin(), labeled.end(), comp);
-	//labeledの頂点のみ先に＜Hを決める
+	
+	// Determins <H for labeled vertices
 	for (ll i = labeled.size() - 1; i >= 0; i--)
 	{
 		H->ordering.push_back(labeled[i].second);
 	}
-	//cout << "labeled vertices" << endl;
 
 	node *x = H->fchild;
 	queue<pr> que_g;
 	queue<pr> que_h;
 
+// TODO: update comments	
 	//Step4の3，4番目の条件でlabelする頂点について
 	//1,2番目の条件によりtiはすでにlabelされ，さらにRHi(x)もさだまっているから
 	//P(x)=RHi(x)でよい
 	//この後で必要なのはqueに入れる順番決め
-	/*
-	vector<node*> blo=all_blossoms(Bl);
-	for(ll i=0;i<blo.size();i++){
-		if(!isLeaf(Bl,blo[i])){
-			cout<<"key"<<blo[i]->key<<endl;
-			cout<<"next key";
-			if(blo[i]->next!=NULL){
-				cout<<blo[i]->next->key<<endl;
-			}
-			else{
-				cout<<"NULL"<<endl;
-			}
-		}
-	}
-	*/
-	/////
+
 	while (x != NULL)
 	{
-		//cout<<"a"<<endl;
-		//cout<<x->key<<endl;
 		if (x->label == 1)
 		{
 			if (x->normal && st_u.find(x->bud) != st_u.end())
@@ -2031,7 +1245,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		}
 		if (x->label == -1 && st_u.find(x->tip) != st_u.end())
 		{
-			//vector<ll> vec;
 			int ope_h = 0;
 			for (ll I = 0; I < x->ordering.size(); I++)
 			{
@@ -2041,20 +1254,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 					continue;
 				}
 
-				/*
-				P[k].push_back(v);
-
-				//+reverse(P(u|ti))
-				for (ll j = path_u.size() - 1; path_u[j] != x->tip; j--)
-				{
-					P[k].push_back(path_u[j]);
-				}
-				//+RHi(x)
-				vector<ll> R_k = Path(k, x->routing);
-				reverse(R_k.begin(), R_k.end());
-				P[k].reserve(P[k].size() + R_k.size());
-				P[k].insert(P[k].end(), R_k.begin(), R_k.end());
-				*/
 				if (k == x->tip)
 				{
 					ll tx = x->tip;
@@ -2080,35 +1279,16 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 					P[k] = x->routing[k];
 				}
 
-				//order[k] = ordering_number;
-
 				if (r == c && r == d)
 				{
-					/* 					
-					if (k == g)
-					{
-						que_g.push(pr(order[rho[k]],k);
-						ope_g=1;
-					}
-					else if (ope_g == 1)
-					{
-						que_g.push(pr(order[rho[k],k);
-					}
-					else
-					{
-						unlabeled.push_back(order[rho[k]], k);
-					} */
 					if (k == h)
 					{
 						que_h.push(pr(order[rho[k]], k));
-
-						//cout << "que_h push:" << k << endl;
 						ope_h = 1;
 					}
 					else if (ope_h == 1)
 					{
 						que_h.push(pr(order[rho[k]], k));
-						//cout << "que_h push:" << k << endl;
 					}
 					else
 					{
@@ -2123,7 +1303,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		}
 		else if (x->label == -1 && st_v.find(x->tip) != st_v.end())
 		{
-			//vector<ll> vec;
 			int ope_g = 0;
 			for (ll I = 0; I < x->ordering.size(); I++)
 			{
@@ -2159,35 +1338,16 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 					P[k] = x->routing[k];
 				}
 
-				/*
-					P[k].push_back(u);
-
-					//+reverse(P(u|ti))
-					for (ll j = path_v.size() - 1; path_v[j] != x->tip; j--)
-					{
-						P[k].push_back(path_u[j]);
-					}
-					//+RHi(x)
-					vector<ll> R_k = Path(k, x->routing);
-					reverse(R_k.begin(), R_k.end());
-					P[k].insert(P[k].end(), R_k.begin(), R_k.end());
-					*/
-
-				//order[k] = ordering_number;
-
 				if (r == c && r == d)
 				{
 					if (k == g)
 					{
 						que_g.push(pr(order[rho[k]], k));
-
-						//cout << "que_g push:" << k << endl;
 						ope_g = 1;
 					}
 					else if (ope_g == 1)
 					{
 						que_g.push(pr(order[rho[k]], k));
-						//cout << "que_g push:" << k << endl;
 					}
 					else
 					{
@@ -2200,36 +1360,17 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				}
 			}
 		}
-		/*
-		cout << "x key:" << x->key << endl;
-		cout << "x next key:";
-		if (x->next == NULL)
-		{
-			cout << "NULL" << endl;
-		}
-		else
-		{
-			cout << x->next->key << endl;
-		}
-		*/
 
 		x = x->next;
 	}
 
+//TODO: update comment
 	//unlabeledの頂点をP(x)でラベル
 	for (ll i = d_idx + 1; i < path_u.size(); i++)
 	{
 		ll k = path_u[i];
 		if (order[k] == INF && isSingle(k, K))
 		{
-			/*
-			P[k].push_back(v);
-			for (ll j = path_u.size() - 1; j > i; j--)
-			{
-				P[k].push_back(path_u[j]);
-			}
-			*/
-			//cout << "label " << k << endl;
 			if (i + 2 >= path_u.size())
 			{
 				P[k].push_back(v);
@@ -2248,15 +1389,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		ll k = path_v[i];
 		if (order[k] == INF && isSingle(k, K))
 		{
-			/*
-			P[k].push_back(u);
-			for (ll j = path_v.size() - 1; j > i; j--)
-			{
-				P[k].push_back(path_v[j]);
-			}
-			unlabeled.push_back(pr(order[rho[k]], k));
-			*/
-			//cout << "label " << k << endl;
 			if (i + 2 >= path_v.size())
 			{
 				if (u != r)
@@ -2265,6 +1397,7 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				}
 				else
 				{ //normal line 一本のみの花をつくるとき
+				//TODO: update comment
 					P[k].push_back(H->tip);
 				}
 			}
@@ -2278,33 +1411,8 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		}
 	}
 
-	/////OK
-	/* cout << "after labeling vertices in new blossom H" << endl;
-	/////
-	for (ll i = 0; i < P.size(); i++)
-	{
-		cout << "path " << i << ":";
-		for (ll j = 0; j < P[i].size(); j++)
-		{
-			cout << P[i][j] << " ";
-		}
-		cout << endl;
-	} */
-	/////
-	/////
-
 	if (r == c && r == d)
 	{
-		//cout << "except for que_g que_h:";
-
-		/*
-		for (ll i = 0; i < unlabeled.size(); i++)
-		{
-			cout << unlabeled[i].second << " ";
-		}
-
-		cout << endl;
-		*/
 		if (!que_g.empty())
 		{
 			pr a = que_g.front();
@@ -2332,19 +1440,7 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 		}
 	}
 
-	/* cout << "vector unlabeled:" << endl;
-	for (ll i = 0; i < unlabeled.size(); i++)
-	{
-		cout << "vertex:" << unlabeled[i].second << " order[rho[vertex]]:" << unlabeled[i].first << endl;
-	} */
-
 	stable_sort(unlabeled.begin(), unlabeled.end(), comp);
-
-	/* cout << "vector unlabeled after sorting:" << endl;
-	for (ll i = 0; i < unlabeled.size(); i++)
-	{
-		cout << "vertex:" << unlabeled[i].second << " order[rho[vertex]]:" << unlabeled[i].first << endl;
-	} */
 
 	for (ll i = 0; i < unlabeled.size(); i++)
 	{
@@ -2361,28 +1457,8 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 
 	if (!SourceLine_set(N, H_elements, inBase))
 	{
-		/*
-		H->routing.resize(vertex_number);
 		for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
 		{
-			vector<ll> path_from_b = Path(*itr, P);
-			for (ll i = 0; path_from_b[i] != H->bud; i++)
-			{
-				H->routing[*itr].push_back(path_from_b[i]);
-			}
-			reverse(H->routing[*itr].begin(), H->routing[*itr].end());
-
-			//K(v)の更新
-			K[*itr] = H->key;
-		}
-		*/
-		for (auto itr = H_elements.begin(); itr != H_elements.end(); itr++)
-		{
-			//if(P[*itr][0]==r){
-			//	H->routing[*itr].resize(P[*itr].size()-2);
-			//	H->routing[*itr].insert(H->routing[*itr].begin(),P[*itr].begin()+2,P[*itr].end());
-			//}
-			//else{
 			if (H->routing[*itr].empty())
 			{
 				if (*itr != H->tip)
@@ -2393,8 +1469,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 				{
 					H->routing[H->tip] = {H->tip};
 				}
-
-				//}
 			}
 			K[*itr] = H->key;
 		}
@@ -2409,170 +1483,6 @@ void Blossom(ll v, ll u, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl,
 			K[*itr] = H->key;
 		}
 	}
-	//K[H->bud] = H->key;
-
-	//////
-	/*
-	cout<<"C[1697][1672]";
-	if(vertex_number>=1697)
-	{
-		ll idx_1=-1,idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1697){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1672){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=1){C.X[idx_1][idx_2].output();}
-	}
-	cout<<endl;
-	cout<<"C[1673][1255]";
-	if(vertex_number>=1673)
-	{
-		ll idx_1=-1;ll idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1673){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1255){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1){
-			C.X[idx_1][idx_2].output();
-		}
-	}
-	cout<<endl;
-	cout<<"C[1697][1255]";
-	if(vertex_number>=1697)
-	{
-		ll idx_1=-1,idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1697){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1255){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1)C.X[idx_1][idx_2].output();
-	}
-	cout<<endl;
-	cout<<"C[1721][1255]";
-	if(vertex_number>=1721)
-	{
-		ll idx_1=-1,idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1721){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1255){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1)C.X[idx_1][idx_2].output();
-	}
-	cout<<endl;
-	cout<<"C[1723][1255]";
-	if(vertex_number>=1723)
-	{
-		ll idx_1=-1,idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1723){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1255){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1){
-			C.X[idx_1][idx_2].output();
-		}
-	}
-	cout<<endl;
-	cout<<"---------------------"<<endl;
-	*/
-	//////
-
-	/////
-	/*
-	cout << "K:";
-	for (ll i = 0; i < vertex_number; i++)
-	{
-		cout << K[i] << " ";
-	}
-	cout << endl;
-	cout << endl;
-	cout << "order:";
-	for (ll i = 0; i < vertex_number; i++)
-	{
-		cout << order[i] << " ";
-	}
-	cout << endl;
-	cout << endl;
-
-	cout << "H->key:" << H->key << endl;
-	cout << "H->label:" << H->label << endl;
-	cout << "H is ";
-	if (H->normal)
-	{
-		cout << "normal" << endl;
-	}
-	else
-	{
-		cout << "source" << endl;
-	}
-	cout << "q(H) is ";
-	H->q.output();
-	cout << endl;
-	cout << endl;
-
-	cout << "ordering of H:";
-	for (ll i = 0; i < H->ordering.size(); i++)
-	{
-		cout << H->ordering[i] << " ";
-	}
-	cout << endl;
-	cout << endl;
-
-	cout << "routing of H" << endl;
-	for (ll i = 0; i < H->routing.size(); i++)
-	{
-		cout << "RH[" << i << "]:";
-		for (ll j = 0; j < H->routing[i].size(); j++)
-		{
-			cout << H->routing[i][j] << " ";
-		}
-		cout << endl;
-	}
-	*/
-
-	/////
-	/*
-	cout << "p was updated:" << endl;
-	for (ll i = 0; i < p.size(); i++)
-	{
-		cout << i << " ";
-		p[i].output();
-		cout << endl;
-	}
-
-	cout << "Blossom end" << endl;
-	*/
-
-	//!!!!!update G
 }
 
 void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &Bl, Tree &Bl2, vector<ll> &K, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &Ba_sub, vector<ll> &NBa_sub, vector<bool> &inBase, vector<ll> &order, vector<Field> &p, vector<ll> &rho, queue<ll> &que)
@@ -2582,7 +1492,6 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 		Graft_num++;
 	}
 	//cout << "Graft start" << endl;
-	//node *Hi = tree_search(Bl, k).first;
 	ll bi = Hi->bud;
 	ll ti = Hi->tip;
 
@@ -2602,10 +1511,10 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 
 	for (ll i = 0; i < Ba.size(); i++)
 	{
-		//q(H)=epsとするからこれでよい
+		// It's OK since q(H) will be set as 0
 		Q.X[Ba[i]][t] = Q.X[Ba[i]][ti];
 		Q.X[t][Ba[i]] = Q.X[ti][Ba[i]];
-		//Hiはマキシマルブロッサムなのでｂはblossomに属さない
+		// b is not in blossom cause H_i is a maximal blossom
 		Q.X[Ba[i]][b] = Q.X[Ba[i]][bi];
 		Q.X[b][Ba[i]] = Q.X[bi][Ba[i]];
 	}
@@ -2623,7 +1532,7 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 	Q.X[t][b] = Q.X[ti][bi];
 	Q.X[b][t] = Q.X[bi][ti];
 
-	//Blossom step2と同様b,t導入
+	// Intoroduces b,t as well as Blossom step2
 	if (inBase[r] == 1 && inBase[g] == 0)
 	{
 		Ba.push_back(b);
@@ -2642,29 +1551,6 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 
 		inBase[b] = true;
 		inBase[t] = false;
-
-		/* 	for (ll i = 0; i < Ba.size(); i++)
-		{
-			//q(H)=epsとするからこれでよい
-			Q.X[Ba[i]][t] = Q.X[Ba[i]][ti];
-			Q.X[t][Ba[i]] = Q.X[ti][Ba[i]];
-			//Hiはマキシマルブロッサムなのでｂはblossomに属さない
-			Q.X[Ba[i]][b] = Q.X[Ba[i]][bi];
-			Q.X[b][Ba[i]] = Q.X[bi][Ba[i]];
-		}
-		for (ll i = 0; i < NBa.size(); i++)
-		{
-			Q.X[NBa[i]][t] = Q.X[NBa[i]][ti];
-			Q.X[t][NBa[i]] = Q.X[ti][NBa[i]];
-
-			Q.X[NBa[i]][b] = Q.X[NBa[i]][bi];
-			Q.X[b][NBa[i]] = Q.X[bi][NBa[i]];
-		}
-		Q.X[t][ti].setZero();
-		Q.X[ti][t].setZero();
-		Q.X[t][t] = Hi->q;
-		Q.X[t][b] = Hi->q;
-		Q.X[b][t] = Hi->q; */
 
 		ll b_idx = Ba.size() - 1;
 		ll t_idx = NBa.size() - 1;
@@ -2686,7 +1572,7 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 		}
 		for (ll i = 0; i < C.col; i++)
 		{
-			//if NBa[i] in H\B*
+			// if NBa[i] in H\B*
 			if (H_elements.find(NBa[i]) != H_elements.end())
 			{
 				C.X[b_idx][i] = C.X[r_idx][i];
@@ -2701,7 +1587,7 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 		}
 		C.X[b_idx][t_idx] = C.X[r_idx][g_idx];
 
-		//update p
+		// Jpdates p
 		p[b] = p[r] + Q.X[r][b];
 		p[t] = p[b];
 	}
@@ -2724,31 +1610,6 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 		inBase[t] = true;
 		inBase[b] = false;
 
-		/* for (ll i = 0; i < Ba.size(); i++)
-		{
-			//q(H)=eps
-			Q.X[Ba[i]][t] = Q.X[Ba[i]][ti];
-			Q.X[t][Ba[i]] = Q.X[ti][Ba[i]];
-
-			Q.X[Ba[i]][b] = Q.X[Ba[i]][Ba[i]];
-			Q.X[b][Ba[i]] = Q.X[Ba[i]][Ba[i]];
-		}
-		for (ll i = 0; i < NBa.size(); i++)
-		{
-			Q.X[NBa[i]][t] = Q.X[NBa[i]][ti];
-			Q.X[t][NBa[i]] = Q.X[ti][NBa[i]];
-
-			Q.X[NBa[i]][b] = Q.X[NBa[i]][NBa[i]];
-			Q.X[b][NBa[i]] = Q.X[NBa[i]][NBa[i]];
-		}
-		//Q[ti][ti]は本来０だがQ[i][i]を変えているため調整が必要
-		//bに関してはHiがmaximalなので問題なし
-		Q.X[t][ti].setZero();
-		Q.X[ti][t].setZero();
-		Q.X[t][t] = Hi->q;
-		Q.X[b][t] = Hi->q;
-		Q.X[ti][bi] = Hi->q; */
-
 		ll t_idx = Ba.size() - 1;
 		ll b_idx = NBa.size() - 1;
 		ll r_idx;
@@ -2769,7 +1630,7 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 		}
 		for (ll i = 0; i < C.row; i++)
 		{
-			//if NBa[i] in H\B*
+			// if NBa[i] in H\B*
 			if (H_elements.find(Ba[i]) != H_elements.end())
 			{
 				C.X[i][b_idx] = C.X[i][r_idx];
@@ -2784,18 +1645,18 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 		}
 		C.X[t_idx][b_idx] = C.X[g_idx][r_idx];
 
-		//update p
+		// Jpdates p
 		p[b] = p[r] - Q.X[r][b];
 		p[t] = p[b];
 	}
 
 	Pivoting_around_p(C, pr(Ba.size() - 1, NBa.size() - 1), Ba, NBa, Ba_sub, NBa_sub, inBase);
 
-	//label t with P(t)=P(v)bt
+	// Labels t with P(t)=P(v)bt
 	P[t].push_back(v);
 	P[t].push_back(b);
 
-	//extend the ordering of < so that t is just after v
+	// Extends the ordering of < so that t is just after v
 	for (ll i = 0; i < order.size(); i++)
 	{
 		if (order[i] < INF && order[i] > order[v])
@@ -2809,7 +1670,6 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 	rho[b] = v;
 
 	//-----step2-----
-	//cout << "----------step2-----------" << endl;
 	for (ll i = 0; i < Hi->ordering.size(); i++)
 	{
 		ll k = Hi->ordering[i];
@@ -2829,10 +1689,9 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 	}
 
 	//-----step3-----
-	//cout << "-----------step3---------" << endl;
 	Hi->label = 1;
 	Hi->ordering[0] = t;
-	//!!!define RH(x) for each x in H\{bi}
+	// Defines RH(x) for each x in H\{bi}
 	Hi->routing.resize(vertex_number);
 	Hi->routing[t] = {t};
 
@@ -2842,7 +1701,6 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 	K[t] = Hi->key;
 
 	//-----step4-----
-	//cout << "-----------step4---------" << endl;
 	Field eps = Hi->q;
 
 	if (inBase[bi] == 1)
@@ -2901,8 +1759,7 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 
 	Pivoting_around_p(C, pivot, Ba, NBa, Ba_sub, NBa_sub, inBase);
 
-	//↓Search_in_blossomの時だけ関係
-	/////////
+	// ↓ The following code is relevant  only when "Search in Blossom" is being executed. 
 	vector<node *> Hi_ancestors = ancestors(Bl2, Hi);
 	for (ll j = 0; j < Hi_ancestors.size(); j++)
 	{
@@ -2929,16 +1786,6 @@ void Graft(ll v, node *Hi, Matrix2 &C, Matrix &Q, vector<vector<ll>> &P, Tree &B
 		Hj->ordering.push_back(b);
 		Hj->ordering.push_back(t);
 	}
-	////////
-	/*
-	cout << "p was updated:" << endl;
-	for (ll i = 0; i < p.size(); i++)
-	{
-		cout << i << " ";
-		p[i].output();
-		cout << endl;
-	}
-	*/
 
 	remove_vertex(ti, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
 	remove_vertex(bi, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
@@ -2951,91 +1798,7 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 	else
 		return {};
 
-
-	/*
-			cout << "edges:" << endl;
-
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		for (ll j = 0; j < NBa.size(); j++)
-		{
-			ll v = Ba[i];
-			ll u = NBa[j];
-
-			ll v_idx, u_idx;
-			for (ll k = 0; k < Ba.size(); k++)
-			{
-				if (Ba[k] == v)
-				{
-					v_idx = k;
-					break;
-				}
-			}
-			for (ll k = 0; k < NBa.size(); k++)
-			{
-				if (NBa[k] == u)
-				{
-					u_idx = k;
-					break;
-				}
-			}
-			if (!C.X[v_idx][u_idx].isZero())
-			{
-				if (p[u] - p[v] == Q.X[u][v])
-				{
-					cout << "tight:" << v << " " << u << endl;
-				}
-				else
-				{
-					cout << "no tight:" << v << " " << u << endl;
-					p[v].output();
-					cout << " ";
-					p[u].output();
-					cout << " ";
-					Q.X[u][v].output();
-					cout << endl;
-				}
-			}
-		}
-	}
-	*/
-
-	/*
-	cout<<"------------------Search start------------------"<<endl;
-	cout<<"p[6]/p[24]/Q[6][24]:"; 
-	p[6].output(); cout<<" "; p[24].output(); cout<<" "; Q.X[6][24].output();cout<<endl;
-
-	if(vertex_number>67){
-		cout<<"p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-	}
-	if(vertex_number>113){
-		cout<<"p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-
-	}
-	*/
-
-	/*
-	vector<node *> all_blossom0 = all_blossoms(Bl);
-	 for (ll i = 0; i < all_blossom0.size(); i++)
-	{
-		node *H_ = all_blossom0[i];
-		cout << "key:" << H_->key << " "
-			 << "elements:";
-		for (ll j = 0; j < H_->ordering.size(); j++)
-		{
-			cout << H_->ordering[j] << " ";
-		}
-		cout << endl;
-		cout << "q:";
-		H_->q.output();
-		cout << endl;
-	} 
-	*/
-
 	//cout<<"feasibility check"<<endl;
-	/////
 	for (ll i = 0; i < Ba.size(); i++)
 	{
 		for (ll j = 0; j < NBa.size(); j++)
@@ -3115,201 +1878,13 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 			}
 		}
 	}
-	//cout<<"--------Search start-------------"<<endl;
-	/////
-	/*
-	cout<<"C[1697][1672]";
-	if(vertex_number>=1697)
-	{
-		ll idx_1=-1,idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1697){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1672){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1){C.X[idx_1][idx_2].output();}
-	}
-	cout<<endl;
-	cout<<"C[1673][1255]";
-	if(vertex_number>=1673)
-	{
-		ll idx_1=-1;ll idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1673){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1255){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1){
-			C.X[idx_1][idx_2].output();
-			cout<<endl;
-		}
-	}
-	cout<<"C[1721][1255]";
-	if(vertex_number>=1721)
-	{
-		ll idx_1=-1; ll idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1721){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1255){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1){
-			C.X[idx_1][idx_2].output();
-			cout<<endl;
-		}
-	}
-	cout<<"C[1723][1255]";
-	if(vertex_number>=1723)
-	{
-		ll idx_1=-1,idx_2=-1;
-		for(ll i=0;i<Ba.size();i++){
-			if(Ba[i]==1723){
-				idx_1=i;break;
-			}
-		}
-		for(ll i=0;i<NBa.size();i++){
-			if(NBa[i]==1255){
-				idx_2=i;break;
-			}
-		}
-		if(idx_1!=-1&&idx_2!=-1){
-				C.X[idx_1][idx_2].output();
-		cout<<endl;
-		}
-	
-	}
-	*/
-	/////
-
-	/////
-	
-	/*
-	cout << endl;
-	cout << "---------------Search start----------------------" << endl;
-	C.output_matrix();
-	*/
-
-	/*
-	cout << "Ba:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-	cout << endl;
-	cout << "Ba_sub:";
-	for (ll i = 0; i < Ba_sub.size(); i++)
-	{
-		cout << Ba_sub[i] << " ";
-	}
-	cout << endl;
-	cout << "NBa_sub:";
-	for (ll i = 0; i < NBa_sub.size(); i++)
-	{
-		cout << NBa_sub[i] << " ";
-	}
-	cout << endl;
-	*/
-
-	/*
-	cout<<"p[6]/p[24]/Q[6][24]:"; 
-	p[6].output(); cout<<" "; p[24].output(); cout<<" "; Q.X[6][24].output();cout<<endl;
-	if(vertex_number>67){
-		cout<<"p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-
-	}
-	if(vertex_number>113){
-		cout<<"p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-
-	}
-	*/
-
-	/*
-	cout << "edges:" << endl;
-	
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		for (ll j = 0; j < NBa.size(); j++)
-		{
-			ll v = Ba[i];
-			ll u = NBa[j];
-
-			ll v_idx, u_idx;
-			for (ll k = 0; k < Ba.size(); k++)
-			{
-				if (Ba[k] == v)
-				{
-					v_idx = k;
-					break;
-				}
-			}
-			for (ll k = 0; k < NBa.size(); k++)
-			{
-				if (NBa[k] == u)
-				{
-					u_idx = k;
-					break;
-				}
-			}
-			if (!C.X[v_idx][u_idx].isZero())
-			{
-				if (p[u] - p[v] == Q.X[u][v])
-				{
-					cout << "tight:" << v << " " << u << endl;
-				}
-				else
-				{
-					cout << "no tight:" << v << " " << u << endl;
-					p[v].output();
-					cout << " ";
-					p[u].output();
-					cout << " ";
-					Q.X[u][v].output();
-					cout << endl;
-				}
-			}
-		}
-	}
-	*/
-	
-
-	//cout << "Q:" << endl;
-	//Q.output_matrix();
-	//cout << endl;
-
-	/* for (ll i = 0; i < K.size(); i++)
-		{
-			cout << "i:" << i << " K[i]:" << K[i] << endl;
-		} */
 
 	vector<ll> path;
 	ll Num = inBase.size();
 
 	queue<ll> que;
 
-	//K[i] -i: single, number(0-|blossoms|) : maximal blossom
+	// K[i] -i: single, number(0-|blossoms|) : maximal blossom
 	P.clear();
 	P.resize(Num);
 
@@ -3323,54 +1898,19 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 	rho.resize(Num, -1);
 
 	order.clear();
-	//initialize ordering with INF
+
+	// Initializes ordering with INF
 	order.resize(Num, INF);
 	ordering_number = 0;
 
-	//initialization K
+	// Initializes K
 	blossom_initialize(Bl, K);
-
-	/////
-	
-	/*
-	if(Ba.size()!=Ba_sub.size())
-	{
-	for(ll i=0;i<Ba_sub.size();i++){
-		cout<<Ba_sub[i]<<" "<<K[Ba_sub[i]]<<endl;
-	}
-	for(ll i=0;i<NBa_sub.size();i++){
-		cout<<NBa_sub[i]<<" "<<K[NBa_sub[i]]<<endl;
-	}
-	}
-	*/
-	
-	/////
-	
-	//cout << "K:";
-	/*
-	for (ll i = 0; i < K.size(); i++)
-	{
-		cout << K[i] << " ";
-	}
-	cout << endl;
-	*/
-	/////
-
-	/*
-	for (ll i = 0; i < K.size(); i++)
-		{
-			cout << "i:" << i << " K[i]:" << K[i] << endl;
-		} 
-		*/
-
 
 	set<pr> source_lines;
 
 	for (ll i = 0; i < Ba_sub.size(); i++)
 	{
 		ll k = Ba_sub[i];
-		//cout<<"k:"<<k<<endl;
-		//cout<<"mate(k):"<<mate(k)<<endl;
 
 		if (!isNotPair(k,N) && !inBase[mate(k)] && isSingle(k, K))
 		{
@@ -3398,53 +1938,21 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 		}
 	}
 
-
-	/*
-	//cout<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!que!!!!!!!!!!!!!!!!!!!!!"<<endl;
-	cout << "que:";
-			queue<ll> que2 = que;
-			while (!que2.empty())
-			{
-				ll I = que2.front();
-				que2.pop();
-				cout << I << " ";
-			}
-			cout << endl;
-	*/
-
-	//unlabeled maximal source blossom
+	// unlabeled maximal source blossom
 	vector<node *> MaximalBlossom = maximal_blossom(Bl);
 	for (ll i = 0; i < MaximalBlossom.size(); i++)
 	{
 
 		node *x = MaximalBlossom[i];
-		/////
-		/*
-		cout << "routing:" << endl;
-		for (ll cnt = 0; cnt < x->ordering.size(); cnt++)
-		{
-			ll vertex = x->ordering[cnt];
-			cout << "RH(" << vertex << "):";
-			for (ll cnt2 = 0; cnt2 < x->routing[vertex].size(); cnt2++)
-			{
-				cout << x->routing[vertex][cnt2] << " ";
-			}
-			cout << endl;
-		}
-		*/
-		/////
 		if (!x->normal)
 		{
-			//labeling maximal blossom with plus
+			// Labeles maximal blossom with plus
 			x->label = 1;
 			for (ll j = 0; j < x->ordering.size(); j++)
 			{
 				P[x->ordering[j]].reserve(x->routing[j].size());
 				P[x->ordering[j]] = x->routing[x->ordering[j]];
-				/* for (ll k = 0; k < x->routing[x->ordering[j]].size(); k++)
-				{
-					P[x->ordering[j]].push_back(x->routing[x->ordering[j]][k]);
-				} */
+
 				que.push(x->ordering[j]);
 				order[x->ordering[j]] = ordering_number;
 				ordering_number++;
@@ -3452,15 +1960,11 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 		}
 	}
 
-	//cout << "aa" << endl;
-	//cout<<"sourceline"<<endl;
 	for (auto itr = source_lines.begin(); itr != source_lines.end(); itr++)
 	{
 		pr sourceline = *itr;
 		ll x = sourceline.first;
 		ll y = sourceline.second;
-
-		//cout << x << " " << y << endl;
 
 		if (x >= N || y >= N)
 		{
@@ -3486,40 +1990,18 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 		}
 		if (!C.X[x_idx][y_idx].isZero())
 		{
-			//cout << "aaa" << endl;
 			if (p[y] - p[x] == Q.X[x][y])
 			{
-				//cout << "aaaa" << endl;
 				Blossom(x, y, C, Q, P, Bl, Bl2, K, order, Ba, NBa, Ba_sub, NBa_sub, inBase, p, rho, que, N);
 			}
 		}
 	}
-	/////
-	//cout << "que push source vertex & source blossom elements" << endl;
-	//cout << "order:";
-	/*
-	for (ll i = 0; i < order.size(); i++)
-	{
-		cout << order[i] << " ";
-	}
-	cout << endl;
-	*/
-	/////
 
 	//-----step2-----
 	while (!que.empty())
 	{
 		ll v = que.front();
 		que.pop();
-
-		//cout << "order:";
-		/*
-		for (ll i = 0; i < order.size(); i++)
-		{
-			cout << order[i] << " ";
-		}
-		cout << endl;
-		*/
 
 		ll v_idx;
 
@@ -3528,20 +2010,6 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 			ll u;
 			ll mn_order = INF;
 			ll mn_order_idx;
-
-			/////
-			
-			/*
-			cout << "que:";
-			queue<ll> que2 = que;
-			while (!que2.empty())
-			{
-				ll I = que2.front();
-				que2.pop();
-				cout << I << " ";
-			}
-			cout << endl;
-			*/
 
 			if (inBase[v])
 			{
@@ -3566,25 +2034,21 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 						{
 							if (p[NBa[i]] - p[v] == Q.X[v][NBa[i]])
 							{
-								//cout << "a" << order[NBa[i]] << endl;
 								if (isNotPair(NBa[i],N) && NBa[i]<N)
 								{
 									path = Path(v, P);
 									reverse(path.begin(), path.end());
 									path.push_back(NBa[i]);
-									//cout<<"Search end-find path to singleton"<<endl;
 									return path;
 								}
 
 								if (order[NBa[i]] < INF && !judge_K(NBa[i], v, K))
 								{
-									//cout << K[NBa[i]] << " " << K[v] << endl;
 									if (mn_order > order[NBa[i]])
 									{
 										u = NBa[i];
 										mn_order = order[NBa[i]];
 										mn_order_idx = i;
-										//cout << "u:" << u << endl;
 									}
 								}
 							}
@@ -3621,18 +2085,15 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 									path = Path(v, P);
 									reverse(path.begin(), path.end());
 									path.push_back(Ba[i]);
-									//cout<<"Search end-find path to singleton"<<endl;
 									return path;
 								}
 								if (order[Ba[i]] < INF && !judge_K(Ba[i], v, K))
 								{
-									//cout << K[Ba[i]] << " " << K[v] << endl;
 									if (mn_order > order[Ba[i]])
 									{
 										u = Ba[i];
 										mn_order = order[Ba[i]];
 										mn_order_idx = i;
-										//cout << "u:" << u << endl;
 									}
 								}
 							}
@@ -3646,30 +2107,6 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 				break;
 			}
 
-			//cout << v << " is adjacent to the labeled vertex:" << u << endl;
-			//cout << "K[v]:" << K[v] << " K[u]:" << K[u] << endl;
-			/*
-			if (judge_K(u, v, K))
-			{
-				cout << "true" << endl;
-			}
-			else
-			{
-				cout << "false" << endl;
-			}
-			*/
-			/*cout<<"P:"<<endl;
-			for(ll i=0;i<P.size();i++)
-			{
-				if(!P[i].empty()){
-					cout<<"P["<<i<<"]:";
-					for(ll j=0;j<P[i].size();j++)
-					{
-						cout<<P[i][j]<<" ";
-					}
-					cout<<endl;
-				}
-			} */
 
 			ll vs = v;
 			while (P[vs][0] != vs)
@@ -3690,72 +2127,9 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 
 				vector<ll> path_u = Path(u, P);
 
-				/////
-				/*
-				cout << "P:";
-				for (ll i = 0; i < P.size(); i++)
-				{
-					if (!P[i].empty())
-					{
-						for (ll j = 0; j < P[i].size(); j++)
-						{
-							cout << P[i][j] << " ";
-						}
-						cout << endl;
-					}
-				}
-				cout << "RH";
-				vector<node *> allblo = all_blossoms(Bl);
-				for (ll i = 0; i < allblo.size(); i++)
-				{
-					node *Hi = allblo[i];
-					cout << endl;
-					if (Hi->normal)
-					{
-						cout << "normal" << endl;
-					}
-					else
-					{
-						cout << "source" << endl;
-					}
-					cout << "Hi key:" << Hi->key << endl;
-
-					for (ll j = 0; j < Hi->ordering.size(); j++)
-					{
-						ll k = Hi->ordering[j];
-						cout << k << " ";
-						for (ll cnt = 0; cnt < Hi->routing[k].size(); cnt++)
-						{
-							cout << Hi->routing[k][cnt] << " ";
-						}
-						cout << endl;
-					}
-				}
-				cout << "path(" << v << "):";
-				for (ll cnt = 0; cnt < path.size(); cnt++)
-				{
-					cout << path[cnt] << " ";
-				}
-				cout << endl;
-				cout << "path(" << u << "):";
-				for (ll cnt = 0; cnt < path_u.size(); cnt++)
-				{
-					cout << path_u[cnt] << " ";
-				}
-				cout << endl;
-				*/
-				/////
-
 				path.reserve(path.size() + path_u.size());
 				path.insert(path.end(), path_u.begin(), path_u.end());
-				//cout<<"Search end-find path to source line"<<endl;
-				//cout<<"path:";
-				/*
-				for(int i=0;i<path.size();i++){
-					cout<<path[i]<<" ";
-				}
-				cout<<endl;
-				*/
+
 				return path;
 			}
 			else
@@ -3784,7 +2158,6 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 						{
 							if (order[NBa[i]] == INF && rho[NBa[i]] == -1)
 							{
-								//cout << NBa[i] << " " << rho[NBa[i]] << endl;
 								unlabeled.push_back(NBa[i]);
 							}
 						}
@@ -3810,8 +2183,6 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 						{
 							if (order[Ba[i]] == INF && rho[Ba[i]] == -1)
 							{
-
-								//cout << Ba[i] << " " << rho[Ba[i]] << endl;
 								unlabeled.push_back(Ba[i]);
 							}
 						}
@@ -3820,16 +2191,7 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 				}
 			}
 		}
-		/////
-		/*
-		cout << "unlabeled:";
-		for (ll i = 0; i < unlabeled.size(); i++)
-		{
-			cout << unlabeled[i] << " ";
-		}
-		cout << endl;
-		*/
-		/////
+
 		for (ll i = 0; i < unlabeled.size(); i++)
 		{
 
@@ -3906,7 +2268,6 @@ vector<ll> Search(Matrix2 &C, vector<bool> &inBase, vector<ll> &Ba, vector<ll> &
 					{
 						//cout << endl;
 						//cout << "-----step4-3------" << endl;
-						//cout << "K[u]:" << K[u] << " " << Hi->key << endl;
 						ll y;
 						for (ll j = 0; j < Hi->ordering.size(); j++)
 						{
@@ -3956,45 +2317,6 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		DualUpdate_num++;
 	}
 	//cout << "DualUpdate start" << endl;
-	/*
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		for (ll j = 0; j < NBa.size(); j++)
-		{
-			ll v = Ba[i];
-			ll u = NBa[j];
-
-			ll v_idx, u_idx;
-			for (ll k = 0; k < Ba.size(); k++)
-			{
-				if (Ba[k] == v)
-				{
-					v_idx = k;
-					break;
-				}
-			}
-			for (ll k = 0; k < NBa.size(); k++)
-			{
-				if (NBa[k] == u)
-				{
-					u_idx = k;
-					break;
-				}
-			}
-			if (!C.X[v_idx][u_idx].isZero())
-			{
-				if (p[u] - p[v] == Q.X[u][v])
-				{
-					cout << "tight:" << v << " " << u << endl;
-				}
-				else
-				{
-					cout << "no tight:" << v << " " << u << endl;
-				}
-			}
-		}
-	}
-	*/
 
 	vector<ll> R_plus;
 	vector<ll> R_minus;
@@ -4122,7 +2444,7 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		}
 	}
 
-	//Yを定める
+	// Defines Y
 	vector<ll> Y;
 	for (ll i = 0; i < Ba.size(); i++)
 	{
@@ -4139,7 +2461,7 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		}
 	}
 
-	//define eps
+	// Defines eps
 	set<ll> RZ_plus;
 	Field eps1, eps2, eps3, eps4;
 	for (ll i = 0; i < R_plus.size(); i++)
@@ -4150,41 +2472,6 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 	{
 		RZ_plus.insert(Z_plus[i]);
 	}
-
-	/////
-	/*
-	cout << "R+:";
-	for (ll i = 0; i < R_plus.size(); i++)
-	{
-		cout << R_plus[i] << " ";
-	}
-	cout << endl;
-	cout << "R-:";
-	for (ll i = 0; i < R_minus.size(); i++)
-	{
-		cout << R_minus[i] << " ";
-	}
-	cout << endl;
-	cout << "Z+:";
-	for (ll i = 0; i < Z_plus.size(); i++)
-	{
-		cout << Z_plus[i] << " ";
-	}
-	cout << endl;
-	cout << "Z-:";
-	for (ll i = 0; i < Z_minus.size(); i++)
-	{
-		cout << Z_minus[i] << " ";
-	}
-	cout << endl;
-	cout << "Y:";
-	for (ll i = 0; i < Y.size(); i++)
-	{
-		cout << Y[i] << " ";
-	}
-	cout << endl;
-	*/
-	/////
 
 	vector<ll> V_inverse;
 	V_inverse.resize(order.size());
@@ -4197,7 +2484,8 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 	{
 		V_inverse[NBa[i]] = i;
 	}
-	//eps1
+
+	// Gets eps1
 	int ope1 = 0;
 	for (auto itr1 = RZ_plus.begin(); itr1 != RZ_plus.end(); itr1++)
 	{
@@ -4240,7 +2528,7 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		eps1 = eps1.divideByTwo();
 	}
 
-	//eps2
+	// Gets eps2
 	int ope2 = 0;
 	for (auto itr1 = RZ_plus.begin(); itr1 != RZ_plus.end(); itr1++)
 	{
@@ -4264,7 +2552,7 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		}
 	}
 
-	//eps3
+	// Gets eps3
 	int ope3 = 0;
 	for (auto itr1 = Y.begin(); itr1 != Y.end(); itr1++)
 	{
@@ -4288,7 +2576,7 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		}
 	}
 
-	//eps4
+	// Gets eps4
 	int ope4 = 0;
 	for (ll i = 0; i < MaximalBlossom.size(); i++)
 	{
@@ -4306,51 +2594,6 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 			ope4 = 1;
 		}
 	}
-
-	/////
-	/*
-	if (ope1 == 1)
-	{
-		cout << "eps1:";
-		eps1.output();
-		cout << endl;
-	}
-	else
-	{
-		cout << "eps1 is INF" << endl;
-	}
-	if (ope2 == 1)
-	{
-		cout << "eps2:";
-		eps2.output();
-		cout << endl;
-	}
-	else
-	{
-		cout << "eps2 is INF" << endl;
-	}
-	if (ope3 == 1)
-	{
-		cout << "eps3:";
-		eps3.output();
-		cout << endl;
-	}
-	else
-	{
-		cout << "eps3 is INF" << endl;
-	}
-	if (ope4 == 1)
-	{
-		cout << "eps4:";
-		eps4.output();
-		cout << endl;
-	}
-	else
-	{
-		cout << "eps4 is INF" << endl;
-	}
-	*/
-	/////
 
 	Field eps;
 	if (ope1 + ope2 + ope3 + ope4 == 0)
@@ -4419,11 +2662,6 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		eps = min(min(eps1, eps2), min(eps3, eps4));
 	}
 
-	/*
-	cout << "eps:";
-	eps.output();
-	cout << endl;
-	*/
 	Field q;
 	q.setZero();
 	if (eps < q)
@@ -4431,10 +2669,7 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 		exit(EXIT_FAILURE);
 	}
 
-	//SQ.output_matrix();
-
-	//update dual variables
-	//cout<<"x"<<endl;
+	// Updates dual variables
 	for (ll i = 0; i < R_plus.size(); i++)
 	{
 		ll v = R_plus[i];
@@ -4459,8 +2694,6 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 			p[v] += eps;
 		}
 	}
-	//cout<<"y"<<endl;
-
 	for (ll i = 0; i < MaximalBlossom.size(); i++)
 	{
 		node *Hi = MaximalBlossom[i];
@@ -4476,16 +2709,13 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 				{
 					Q.X[v][Ba[k]] += eps;
 					Q.X[Ba[k]][v] += eps;
-					//cout<<k<<endl;
 				}
 				for (ll k = 0; k < NBa.size(); k++)
 				{
 					Q.X[v][NBa[k]] += eps;
 					Q.X[NBa[k]][v] += eps;
-					//cout<<k<<endl;
 				}
 			}
-			//cout << "a" << endl;
 			for (ll j = 0; j < Hi->ordering.size(); j++)
 			{
 				for (ll k = 0; k < Hi->ordering.size(); k++)
@@ -4498,12 +2728,12 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 						Q.X[v][u] = Q.X[v][u] - eps;
 					}
 					else
-					{ //Q_uuも二回ずつ加算されている
+					{
+						// Substracts the extra value added for Q_uu
 						Q.X[u][u] -= eps;
 					}
 				}
 			}
-			//cout << "b" << endl;
 		}
 		else if (Hi->label == -1)
 		{
@@ -4522,7 +2752,6 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 					Q.X[NBa[k]][v] -= eps;
 				}
 			}
-			////cout << "c" << endl;
 			for (ll j = 0; j < Hi->ordering.size(); j++)
 			{
 				for (ll k = 0; k < Hi->ordering.size(); k++)
@@ -4540,33 +2769,8 @@ bool DualUpdate(Matrix2 &C, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<l
 					}
 				}
 			}
-			//cout << "d" << endl;
 		}
 	}
-
-	/*
-	cout << "p:";
-	for (ll i = 0; i < p.size(); i++)
-	{
-		p[i].output();
-		cout << " ";
-	}
-	cout << endl;
-	vector<node *> MaxBlo = maximal_blossom(Bl);
-	for (ll i = 0; i < MaxBlo.size(); i++)
-	{
-		cout << "q(H" << MaxBlo[i]->key << "):";
-		MaxBlo[i]->q.output();
-		cout << endl;
-	}
-
-	cout << "Q:";
-	Q.output_matrix();
-	cout << endl;
-	cout << endl;
-	Q.X[9][20].output();
-	cout << "DualUpdate end" << endl;
-	*/
 
 	return true;
 }
@@ -4578,62 +2782,16 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 		Augment_num++;
 	}
 	//cout << "-------Augment start-----------" << endl;
-
-	
-	/*
-	vector<node *> all_blossom = all_blossoms(Bl);
-	for (ll i = 0; i < all_blossom.size(); i++)
-	{
-		node *H_ = all_blossom[i];
-		//cout << "key:" << H_->key << " "<< "elements:";
-	
-		
-		for (ll j = 0; j < H_->ordering.size(); j++)
-		{
-			cout << H_->ordering[j] << " ";
-		}
-		cout << endl;
-		cout << "q:";
-		H_->q.output();
-		cout << endl;
-		
-	}
-	*/
 	
 	//-----step0-----
 	vector<node *> L = all_blossoms(Bl);
-	//cout << "C:";
-	//C.output_matrix();
-	
-	/*
-	cout << endl;
-	cout << "path:";
-	for (ll i = 0; i < path.size(); i++)
-	{
-		cout << path[i] << " ";
-	}
-	cout << endl;
-	
-	cout<<"p[6]/p[24]/Q[6][24]:"; 
-	p[6].output(); cout<<" "; p[24].output(); cout<<" "; Q.X[6][24].output();cout<<endl;
-	if(vertex_number>67){
-		cout<<"p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-
-	}
-	if(vertex_number>113){
-		cout<<"p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-
-	}
-	*/
 
 	set<ll> Lp;
 	vector<node *> NLp;
 	vector<pair<node *, pair<ll, ll>>> Lp_positive;
 	set<node *> Lp_zero;
 
-	//Λpを求める
+	// Finds Λp
 	vector<vector<ll>> S;
 	S.resize(rho.size());
 	for (ll i = 0; i < L.size(); i++)
@@ -4674,36 +2832,15 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 		}
 	}
 
-	//cout << "all blossom:";
 	for (ll i = 0; i < L.size(); i++)
 	{
 		node *Hi = L[i];
-		//cout << L[i]->key << " ";
 
 		if (Lp.find(Hi->key) == Lp.end())
 		{
 			NLp.push_back(Hi);
 		}
 	}
-	//cout << endl;
-	//cout << "Lp_positive:" << endl;
-	/*
-	for (ll i = 0; i < Lp_positive.size(); i++)
-	{
-		cout << Lp_positive[i].first->key << " " << Lp_positive[i].second.first << " " << Lp_positive[i].second.second << endl;
-	}
-	cout << endl;
-	cout << "!!!!!!!!!!!!!!!!!!!!!Lp_zero";
-	*/
-	/*
-	for (auto itr = Lp_zero.begin(); itr != Lp_zero.end(); itr++)
-	{
-		cout << (*itr)->key << " ";
-	}
-	cout << endl;
-	*/
-
-	//!!!!!変えた!!!!! isMaximal(Bl,H)
 
 	for (ll i = 0; i < NLp.size(); i++)
 	{
@@ -4717,6 +2854,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 	//-----step1-----
 
 	vector<pr> M;
+	//TODO: update comment
 	//MにPのマッチング(Cのいんでっくすのじょうたいで)突っ込む
 	for (ll i = 0; i < path.size() / 2; i++)
 	{
@@ -4789,17 +2927,14 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			}
 		}
 
-		//~~~~~xiとyiを求める
+		// Finds xi and yi
 		ll ti2 = new_vertex(K, P, C, Q, order, rho, inBase, p);
 		ll bi2 = new_vertex(K, P, C, Q, order, rho, inBase, p);
-
-		//cout << bi2 << " " << ti2 << " " << xi << " " << yi << endl;
 
 		new_dummy_lines.push_back(pr(ti2, bi2));
 
 		vector<node *> H_ancestors = ancestors(Bl, H);
 		H->ordering.push_back(ti2);
-		//H->ordering.push_back(bi2); //あとで消す
 		set<ll> H_elements;
 		for (ll i = 0; i < H->ordering.size() - 1; i++)
 		{
@@ -4845,13 +2980,6 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 		}
 		else
 		{
-			//cout << "!!!!!!!!!!!!!!!!!!!!!!" << endl;
-			//cout << "H->q:";
-			//H->q.output();
-			//cout << endl;
-			//cout << "q_ancestors:";
-			//q_ancestors.output();
-			//cout << endl;
 			Q.X[ti2][ti2] = q_ancestors + H->q;
 			Q.X[bi2][bi2] = q_ancestors;
 			for (ll i = 0; i < Ba.size(); i++)
@@ -4916,6 +3044,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			inBase[bi2] = true;
 			inBase[ti2] = false;
 
+			//TODO: update comment
 			//Blossom step2 で　b<-bi t<-ti r<-xi g<-yi (Hに入ってるか入ってないかなど少し違うので注意)
 			ll bi2_idx = Ba.size() - 1;
 			ll ti2_idx = NBa.size() - 1;
@@ -4940,7 +3069,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			}
 			for (ll i = 0; i < C.col; i++)
 			{
-				//if NBa[i] in H\B*
+				// if NBa[i] in H\B*
 				if (H_elements.find(NBa[i]) == H_elements.end())
 				{
 					C.X[bi2_idx][i] = C.X[xi_idx][i];
@@ -4996,7 +3125,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			}
 			for (ll i = 0; i < C.row; i++)
 			{
-				//if NBa[i] in H\B*
+				// if NBa[i] in H\B*
 				if (H_elements.find(Ba[i]) == H_elements.end())
 				{
 					C.X[i][bi2_idx] = C.X[i][xi_idx];
@@ -5020,67 +3149,11 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 
 	//-----step2-----
 	Pivoting_around_M(C, M, Ba, NBa, Ba_sub, NBa_sub, inBase);
-	/////
-	/*
-	if(!Pivoting_around_M(C, M, Ba, NBa, Ba_sub, NBa_sub, inBase)){
-		cout<<"path/K"<<endl;
-		for(ll i=0;i<path.size();i++){
-			cout<<"v:"<<path[i]<<" K[v]:"<<K[path[i]]<<" p[v]:";p[path[i]].output();cout<<endl;;
-		}
-		cout<<"Lp+:"<<endl;
-		for(ll i=0;i<Lp_positive.size();i++){
-			cout<<Lp_positive[i].first->key<<" "<<Lp_positive[i].second.first<<" "<<Lp_positive[i].second.second;
-		}
-		cout<<"new dummy line"<<endl;
-		for(ll i=0;i<new_dummy_lines.size();i++){
-			cout<<new_dummy_lines[i].first<<" "<<new_dummy_lines[i].second<<endl;
-		}
-
-		for(ll i=0;i<M.size();i++){
-			ll v=Ba[M[i].first];
-			for(ll j=0;j<M.size();j++)
-			{
-				ll u=NBa[M[j].second];
-				
-				if(!C.X[M[i].first][M[j].second].isZero())
-				{
-					if(p[u]-p[v]==Q.X[u][v]){
-						cout<<"tight:"<<v<<" "<<u<<endl;
-					}
-					else{
-						cout<<"not tight:"<<v<<" "<<u<<endl;
-					}
-				}
-			}
-		}
-
-		cout<<"M:"<<endl;
-		for(ll i=0;i<M.size();i++){
-			cout<<M[i].first<<" "<<M[i].second<<" "<<Ba[M[i].first]<<" "<<NBa[M[i].second]<<endl;
-		}
-		
-		exit(EXIT_FAILURE);
-		
-	}
-	*/
 
 	//-----step3-----
-
-	//cout << "step3" << endl;
 	for (auto itr_z = Lp_zero.begin(); itr_z != Lp_zero.end(); itr_z++)
 	{
 		node *Hi = *itr_z;
-		//cout << "Hi->key:" << Hi->key << endl;
-		/*
-		if (Hi->normal)
-		{
-			cout << "normal" << endl;
-		}
-		else
-		{
-			cout << "source" << endl;
-		}
-		*/
 
 		if (!Hi->normal)
 		{
@@ -5094,7 +3167,6 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			vector<node *> H_ancestors = ancestors(Bl, Hi);
 			for (ll i = 0; i < H_ancestors.size(); i++)
 			{
-				//cout << "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" << endl;
 				node *Hj = H_ancestors[i];
 				ll idx;
 				for (ll j = 0; j < Hj->ordering.size(); j++)
@@ -5123,30 +3195,19 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			remove_vertex(ti, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
 			remove_vertex(bi, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
 		}
-		//if (Hi->normal)
-		//{
-		//Expand(C, Hi, Ba, NBa, Ba_sub, NBa_sub, inBase, order, Bl);
-		//}
 	}
-	//cout << "C:";
-	//C.output_matrix();
-	//cout << endl;
 
-	//rename bi',ti' as bud tip of Hi
-
+	// Renames bi',ti' as bud tip of Hi
 	for (ll I = 0; I < Lp_positive.size(); I++)
 	{
 		node *Hi = Lp_positive[I].first;
-		//cout << Hi->key << endl;
 		if (Hi->normal)
 		{
 			ll former_tip = Hi->tip;
 			ll former_bud = Hi->bud;
 			remove_vertex(Hi->bud, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
-			//cout << "eee" << endl;
 			remove_vertex(Hi->tip, Ba, NBa, Ba_sub, NBa_sub, inBase, order, C);
 
-			//cout << "aaa" << endl;
 			Hi->tip = new_dummy_lines[I].first;
 			Hi->bud = new_dummy_lines[I].second;
 
@@ -5160,13 +3221,6 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 				}
 			}
 			Hi->ordering.erase(Hi->ordering.begin() + idx);
-			//Hi->tip = Hi->ordering[Hi->ordering.size() - 1];
-			//Hi->bud = Hi->ordering[Hi->ordering.size() - 1];
-			//Hi->ordering.erase(Hi->ordering.end() - 1);
-			//Hi->ordering.erase(Hi->ordering.begin());
-
-			//cout << "bbb" << endl;
-			//cout << "new tip is " << Hi->tip << " /new bud is " << Hi->bud << endl;
 
 			vector<node *> Hi_ancestors = ancestors(Bl, Hi);
 			for (ll j = 0; j < Hi_ancestors.size(); j++)
@@ -5196,19 +3250,13 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 		}
 		else
 		{
-			/* Hi->tip = Hi->ordering[Hi->ordering.size() - 2];
-			Hi->bud = Hi->ordering[Hi->ordering.size() - 1]; */
 			Hi->tip = new_dummy_lines[I].first;
 			Hi->bud = new_dummy_lines[I].second;
-			//cout << "Key:" << Hi->key << endl;
-			//cout << "new tip is " << Hi->tip << " new bud is:" << Hi->bud << endl;
-			//Hi->ordering.erase(Hi->ordering.end() - 1);
 			Hi->normal = true;
 		}
 	}
 
 	//-----step4-----
-	//cout << "-----step4-----" << endl;
 	vector<node *> Blossoms = all_blossoms(Bl);
 	vector<node *> NormalBlossoms;
 	for (ll i = 0; i < Blossoms.size(); i++)
@@ -5222,24 +3270,10 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 
 	vector<node *> Blossoms_in_MaximalNormalBlossom = blossoms_in_MaximalNormalBlossom(Bl);
 
-	//cout << "!!!!!!Blossoms_in_MaximalNormalBlossom" << endl;
-	/*
-	for (ll i = 0; i < Blossoms_in_MaximalNormalBlossom.size(); i++)
-	{
-		node *Hi = Blossoms_in_MaximalNormalBlossom[i];
-		//cout << "key:" << Hi->key << " "
-		//	 << "elements:";
-		for (ll j = 0; j < Hi->ordering.size(); j++)
-		{
-			cout << Hi->ordering[j] << " ";
-		}
-		cout << endl;
-	}
-	*/
+	//cout << "Blossoms_in_MaximalNormalBlossom" << endl;
 
 	for (ll I = Blossoms_in_MaximalNormalBlossom.size() - 1; I >= 0; I--)
 	{
-		//node *Hi = NormalBlossoms[I];
 		node *Hi = Blossoms_in_MaximalNormalBlossom[I];
 		ll ti2 = new_vertex(K, P, C, Q, order, rho, inBase, p);
 		ll bi2 = new_vertex(K, P, C, Q, order, rho, inBase, p);
@@ -5326,7 +3360,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			}
 			for (ll i = 0; i < C.col; i++)
 			{
-				//if NBa[i] in Hi\B*
+				// if NBa[i] in Hi\B*
 				if (Hi_elements.find(NBa[i]) != Hi_elements.end())
 				{
 					C.X[ti2_idx][i] = C.X[bi_idx][i];
@@ -5410,7 +3444,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 
 			for (ll i = 0; i < C.col; i++)
 			{
-				//if NBa[i] in Hi\B*
+				// if NBa[i] in Hi\B*
 				if (Hi_elements.find(NBa[i]) == Hi_elements.end())
 				{
 					C.X[bi2_idx][i] = C.X[ti_idx][i];
@@ -5435,16 +3469,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 
 	for (ll I = 0; I < Blossoms_in_MaximalNormalBlossom.size(); I++)
 	{
-		//node *Hi = NormalBlossoms[I];
 		node *Hi = Blossoms_in_MaximalNormalBlossom[I];
-
-		/*
-		for (ll i = 0; i < Hi->ordering.size(); i++)
-		{
-			cout << Hi->ordering[i] << " ";
-		}
-		cout << endl;
-		*/
 
 		ll former_tip = Hi->tip;
 		ll former_bud = Hi->bud;
@@ -5471,15 +3496,7 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 		vector<node *> Hi_ancestors = ancestors(Bl, Hi);
 		for (ll j = 0; j < Hi_ancestors.size(); j++)
 		{
-			//cout << "4-" << j << endl;
 			node *Hj = Hi_ancestors[j];
-			/*
-			for (ll k = 0; k < Hj->ordering.size(); k++)
-			{
-				cout << Hj->ordering[k] << " ";
-			}
-			cout << endl;
-			*/
 
 			ll idx;
 			for (ll k = 0; k < Hj->ordering.size(); k++)
@@ -5491,9 +3508,6 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 					break;
 				}
 			}
-
-			//cout << idx << endl;
-			//cout << Hj->ordering.size() << endl;
 
 			auto itr = Hj->ordering.erase(Hj->ordering.begin() + idx);
 
@@ -5509,26 +3523,11 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 			itr = Hj->ordering.erase(Hj->ordering.begin() + idx);
 		}
 	}
-	/*cout<<"all blossom"<<endl;
-	for(ll i=0;i<L.size();i++)
-	{
-		node *Hi=L[i];
-		cout<<"key:"<<Hi->key<<endl;
-		cout<<"tip:"<<Hi->tip<<" bud:"<<Hi->bud<<endl;
-		cout<<"ordering:";
-		for(ll j=0;j<Hi->ordering.size();j++)
-		{
-			cout<<Hi->ordering[j]<<" ";
-		}
-		cout<<endl;
-	} */
 
 	//-----step5-----
-	//cout << "-----step5-----" << endl;
 	vector<pr> new_dummy_line;
 	for (ll I = 0; I < Blossoms_in_MaximalNormalBlossom.size(); I++)
 	{
-		//node *Hi = NormalBlossoms[I];
 		node *Hi = Blossoms_in_MaximalNormalBlossom[I];
 
 		ll ti2 = new_vertex(K, P, C, Q, order, rho, inBase, p);
@@ -5724,7 +3723,6 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 	//cout << "-----step5 remove-----" << endl;
 	for (ll I = 0; I < Blossoms_in_MaximalNormalBlossom.size(); I++)
 	{
-		//node *Hi = NormalBlossoms[I];
 		node *Hi = Blossoms_in_MaximalNormalBlossom[I];
 
 		ll former_tip = Hi->tip;
@@ -5750,7 +3748,6 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 		vector<node *> Hi_ancestors = ancestors(Bl, Hi);
 		for (ll j = 0; j < Hi_ancestors.size(); j++)
 		{
-			//cout << "3-" << j << endl;
 			node *Hj = Hi_ancestors[j];
 			ll idx;
 			for (ll k = 0; k < Hj->ordering.size(); k++)
@@ -5775,177 +3772,11 @@ void Augment(vector<ll> &path, Tree &Bl, Matrix2 &C, vector<ll> &Ba, vector<ll> 
 		}
 	}
 
-	/* cout<<"all blossom"<<endl;
-	for(ll i=0;i<L.size();i++)
-	{
-		node *Hi=L[i];
-		cout<<"key:"<<Hi->key<<endl;
-		cout<<"tip:"<<Hi->tip<<" bud:"<<Hi->bud<<endl;
-		cout<<"ordering:";
-		for(ll j=0;j<Hi->ordering.size();j++)
-		{
-			cout<<Hi->ordering[j]<<" ";
-		}
-		cout<<endl;
-	} */
-	//cout << "C:";
-	//C.output_matrix();
-	//cout << endl;
-	/*
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		for (ll j = 0; j < NBa.size(); j++)
-		{
-			ll v = Ba[i];
-			ll u = NBa[j];
-
-			ll v_idx, u_idx;
-			for (ll k = 0; k < Ba.size(); k++)
-			{
-				if (Ba[k] == v)
-				{
-					v_idx = k;
-					break;
-				}
-			}
-			for (ll k = 0; k < NBa.size(); k++)
-			{
-				if (NBa[k] == u)
-				{
-					u_idx = k;
-					break;
-				}
-			}
-			if (!C.X[v_idx][u_idx].isZero())
-			{
-				if (p[u] - p[v] == Q.X[u][v])
-				{
-					cout << "tight:" << v << " " << u << endl;
-				}
-				else
-				{
-					cout << "no tight:" << v << " " << u << endl;
-				}
-			}
-		}
-	}
-	*/
 	//cout << "-----------Augment end-------" << endl;
 }
 
 void Search_in_Blossom(Matrix2 &C, node *H, Tree &Bl, vector<Field> &p, vector<ll> &Ba, vector<ll> &NBa, vector<ll> &order, vector<ll> &rho, vector<ll> &K, vector<bool> &inBase, Matrix &Q, vector<vector<ll>> &P, ll N)
 {
-	/////
-	
-	/*
-	cout << endl;
-	cout << "-------Search_in_Blossom start--------" << endl;
-	cout << "blossom:" << H->key << endl;
-	cout<< "tip:"<<H->tip<<" bud:"<<H->bud<<endl;
-	cout << "elements:";
-	for (ll i = 0; i < H->ordering.size(); i++)
-	{
-		cout << H->ordering[i] << " ";
-	}
-	cout << endl;
-	*/
-	
-
-	/*
-	cout << "p:" << endl;
-	for (ll i = 0; i < p.size(); i++)
-	{
-		cout << i << " ";
-		p[i].output();
-		cout << endl;
-	}
-	
-	cout<<"p[6]/p[24]/Q[6][24]:"; 
-	p[6].output(); cout<<" "; p[24].output(); cout<<" "; Q.X[6][24].output();cout<<endl;
-	if(vertex_number>67){
-		cout<<"!p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-
-	}
-	if(vertex_number>113){
-		cout<<"!p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-
-	}
-
-	*/
-	
-	/*
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		for (ll j = 0; j < NBa.size(); j++)
-		{
-			ll v = Ba[i];
-			ll u = NBa[j];
-
-			ll v_idx, u_idx;
-			for (ll k = 0; k < Ba.size(); k++)
-			{
-				if (Ba[k] == v)
-				{
-					v_idx = k;
-					break;
-				}
-			}
-			for (ll k = 0; k < NBa.size(); k++)
-			{
-				if (NBa[k] == u)
-				{
-					u_idx = k;
-					break;
-				}
-			}
-			if (!C.X[v_idx][u_idx].isZero())
-			{
-				if (p[u] - p[v] == Q.X[u][v])
-				{
-					cout << "tight:" << v << " " << u << endl;
-				}
-				else
-				{
-					cout << "no tight:" << v << " " << u << endl;
-					p[u].output();
-					cout << " ";
-					p[v].output();
-					cout << " ";
-					Q.X[u][v].output();
-					cout << endl;
-				}
-			}
-		}
-	}
-	*/
-	
-	/*
-	vector<node *> all_blossom = all_blossoms(Bl);
-	 for (ll i = 0; i < all_blossom.size(); i++)
-	{
-		node *H_ = all_blossom[i];
-		cout << "key:" << H_->key << endl;
-
-
-		cout<< "tip:"<<H_->tip<<" bud:"<<H_->bud<<endl;
-		cout	 << "elements:";
-		for (ll j = 0; j < H_->ordering.size(); j++)
-		{
-			cout << H_->ordering[j] << " ";
-		}
-		cout << endl;
-		cout << "q:";
-		H_->q.output();
-		cout << endl;
-	} 
-	*/
-
-	//cout << "C:" << endl;
-	//C.output_matrix();
-	//cout << endl;
-
 	set<ll> H_elements;
 
 	for (ll i = 0; i < H->ordering.size(); i++)
@@ -5983,23 +3814,9 @@ void Search_in_Blossom(Matrix2 &C, node *H, Tree &Bl, vector<Field> &p, vector<l
 
 	while (!H->q.isZero())
 	{
-		//cout<<"q(Hi):"; H->q.output(); cout<<endl;
 		Search(C, inBase, Ba, NBa, H_Ba, H_NBa, Q, K, H_tree, Bl, p, order, rho, P, N);
 
-		/*
-		if(vertex_number>67){
-		cout<<"!!p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-
-		}
-		if(vertex_number>113){
-		cout<<"!!p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-
-		}
-		*/
-
-		//update dual variables
+		// Updates dual variables
 		vector<node *> MaximalBlossoms = maximal_blossom(H_tree);
 		vector<ll> RZ_plus;
 		RZ_plus.push_back(H->tip);
@@ -6078,27 +3895,6 @@ void Search_in_Blossom(Matrix2 &C, node *H, Tree &Bl, vector<Field> &p, vector<l
 		{
 			eps_ = H->q;
 		}
-
-		////
-		/*
-		cout << "eps_:";
-		eps_.output();
-		cout << endl; 
-		*/
-		
-		/////
-		/*
-		if(vertex_number>67){
-		cout<<"!!!p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-
-	}
-	if(vertex_number>113){
-		cout<<"!!!p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-
-	}
-	*/
 
 		if (inBase[H->tip])
 		{
@@ -6188,60 +3984,17 @@ void Search_in_Blossom(Matrix2 &C, node *H, Tree &Bl, vector<Field> &p, vector<l
 				p[Hi->bud] += eps_;
 			}
 		}
-		/*
-		vector<node*> blossoms_in_H=all_blossoms(H_tree);
-		for(ll i=0;i<blossoms_in_H.size();i++){
-			node *Hi=blossoms_in_H[i];
-			if(Hi->q.isZero())
-			{
-				Expand(C, Hi, Ba, NBa, H_Ba, H_NBa, inBase, order, Bl);
-			}
-		}
-		*/
 	}
-
-	/*
-	if(vertex_number>67){
-		cout<<"!!!!p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-
-	}
-	if(vertex_number>113){
-		cout<<"!!!!p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-	}
-	*/
 
 	Expand(C, H, Ba, NBa, H_Ba, H_NBa, inBase, order, Bl);
 
-	/* vector<node *> allblo = all_blossoms(Bl);
-	cout << "BLOSSOM:";
-	for (ll i = 0; i < allblo.size(); i++)
-	{
-		node *Hi = allblo[i];
-		cout << Hi->key << " ";
-	}
-	cout << endl;
-	/*/
-	/*
-	if(vertex_number>67){
-		cout<<"!!!!!p[35]/p[67]/Q[35][67]:"; 
-		p[35].output(); cout<<" "; p[67].output(); cout<<" "; Q.X[35][67].output();cout<<endl;
-
-	}
-	if(vertex_number>113){
-		cout<<"!!!!!p[13]/p[113]/Q[13][113]:"; 
-		p[13].output(); cout<<" "; p[113].output(); cout<<" "; Q.X[13][113].output();cout<<endl;
-
-	}
-	*/
 	//cout << "-------Search_in_Blossom end----------" << endl;
 	//cout << endl;
 }
 
 vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 {
-	//Aから行列Cをつくる
+	// Creates a matrix C with given matrix A
 	Matrix2 A_b(A.row, A.row);
 	Matrix2 A_nb(A.row, A.col - A.row);
 
@@ -6260,14 +4013,6 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 	//cout << "Base_Greedy start" << endl;
 	vector<ll> Ba = Base_Greedy(A, p);
 
-	/*
-	cout << "Base:";
-	for (ll i = 0; i < Ba.size(); i++)
-	{
-		cout << Ba[i] << " ";
-	}
-	cout << endl;
-	*/
 	//cout << "Base Greedy end" << endl;
 	if (overflow)
 	{
@@ -6275,10 +4020,9 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 	}
 	if (Ba.size() != A.row)
 	{
-		//cout << "no base" << endl;
+		// There is no base.
 		return Ba;
 	}
-	//cout<<"0"<<endl;
 
 	vector<bool> inBase;
 	inBase.resize(A.col, false);
@@ -6294,14 +4038,6 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 			NBa.push_back(i);
 		}
 	}
-	/*
-	cout << "NBa:";
-	for (ll i = 0; i < NBa.size(); i++)
-	{
-		cout << NBa[i] << " ";
-	}
-	cout << endl;
-	*/
 
 	for (ll i = 0; i < A.row; i++)
 	{
@@ -6318,24 +4054,7 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 		}
 	}
 
-	//cout<<"1"<<endl;
 	Matrix2 C = matrix2_inverse(A_b) * A_nb;
-	//cout<<"11"<<endl;
-	//cout<<"C:"<<endl;
-	//C.output_matrix();
-	/* 	if (overflow)
-	{
-		overflow = true;
-		return {};
-	} */
-	//num_type C_mx = C.maximum_number();
-	//cout << "the maximum absolute number in elements of C:";
-	//cout << C_mx << endl;
-
-	//maximum_absolute_num = max(maximum_absolute_num, C_mx);
-	//cout<<"111"<<endl;
-
-	//matrix_inverse(A_b).output_matrix();
 
 	vertex_number = A.col;
 
@@ -6360,20 +4079,9 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 	vector<ll> rho;
 	vector<vector<ll>> P;
 
-	/* bool flag = SourceLine_vector(A.col, Ba, inBase);
-	if (flag == true)
-	{
-		cout << "source line" << endl;
-	}
-	else
-	{
-		cout << "no source line" << endl;
-	}
-
-	cout << "step2 start" << endl; */
+	// cout << "step2 start" << endl;
 	while (SourceLine_vector(pair_vertex_num, Ba, inBase))
 	{
-		//cout<<"2"<<endl;
 		//cout << "Search start" << endl;
 
 		vector<ll> Ba_sub = Ba;
@@ -6391,48 +4099,14 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 			//cout << "DualUpdate start" << endl;
 			if (DualUpdate(C, Blossom, p, Ba, NBa, order, rho, K, inBase, Q))
 			{
-				/*
 				vector<node *> AllBlossoms = all_blossoms(Blossom);
-				for (ll i = 0; i < AllBlossoms.size(); i++)
-				{
-					node *Hi = AllBlossoms[i];
-					if (Hi->q.isZero())
-					{
-						//cout << "Expand H" << Hi->key << endl;
-						Expand(C, Hi, Ba, NBa, Ba_sub, NBa_sub, inBase, order, Blossom);
-						if (overflow)
-						{
-							return {};
-						}
-					}
-				}
-				*/
-
-				/////変えた
-				/*
-				while(1){
-					vector<node*>MaximalBlossom=maximal_blossom(Blossom);
-					if(MaximalBlossom.size()==0){
-						break;
-					}
-					for(ll i=0;i<MaximalBlossom.size();i++)
-					{
-						node *Hi=MaximalBlossom[i];
-						if(Hi->q.isZero())
-						{
-							Expand(C, Hi, Ba, NBa, Ba_sub, NBa_sub, inBase, order, Blossom);
-						}
-					}
-				}
-				*/
-				vector<node *> AllBlossoms = all_blossoms(Blossom);
-				//大きい花から小さい花へ
+				
+				// Executes from the largest blossom to the smallest
 				for (ll i = 0; i < AllBlossoms.size(); i++)
 				{
 					node *Hi = AllBlossoms[i];
 					if (Hi->q.isZero() && isMaximal(Blossom, Hi))
 					{
-						//cout << "Expand H" << Hi->key << endl;
 						Expand(C, Hi, Ba, NBa, Ba_sub, NBa_sub, inBase, order, Blossom);
 						if (overflow)
 						{
@@ -6440,7 +4114,6 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 						}
 					}
 				}
-				/////
 			}
 			else
 			{
@@ -6461,15 +4134,6 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 
 			//cout << "Search in each blossom start" << endl;
 			vector<node *> Blossoms_in_MaximalNormalBlossom = blossoms_in_MaximalNormalBlossom(Blossom);
-			/*for (ll i = AllBlossoms.size() - 1; i >= 0; i--)
-			{
-				node *Hi = AllBlossoms[i];
-				if (Hi->normal)
-				{
-					Search_in_Blossom(C, Hi, Blossom, p, Ba, NBa, order, rho, K, inBase, Q, P, A.col);
-				}
-			}
-			*/
 			for (ll i = Blossoms_in_MaximalNormalBlossom.size() - 1; i >= 0; i--)
 			{
 				node *Hi = Blossoms_in_MaximalNormalBlossom[i];
@@ -6489,54 +4153,48 @@ vector<ll> matroid_parity(Matrix2 &A, Field w[], Field w_[])
 
 int main()
 {
-	int inc;
+	int mode;
 	cout << "ランダムなら０，接続行列なら1，接続行列の変種なら２を入力" << endl;
-	//cin >> inc;
-	inc=10;
-	//ll element = 10;
-	//ll weight = 10;
-	//ll k;
-	//double nonzero_prob = 0.5;
-	//vector<int> row_size = {10, 20, 50, 100};
+	//cin >> mode;
+	mode = 10;
 
 	vector<int> elements;
 	vector<int> row_size;
-	ll weight = 10;
+	const ll weight = 10;
 	vector<string> nonzero_probs;
-	//vector<int> row_size={100};
-	//vector<int> row_size = {200,500};
-	if (inc == 0)
+
+	if (mode == 0)
 	{
 		elements = {1, 2, 5, 10};
 		row_size = {10, 20, 50, 100, 200};
 		nonzero_probs = {"0.1", "0.2", "0.5"};
 	}
-	if (inc == 1)
+	if (mode == 1)
 	{
 		elements = {1};
 		row_size = {10, 20, 50, 100, 200};
 		nonzero_probs = {"N"};
 	}
-	if (inc == 2)
+	if (mode == 2)
 	{
 		//elements = {3, 5,10, 20, 30};
 		elements = {20, 30};
 		row_size = {100};
 		nonzero_probs = {"N"};
 	}
-	if (inc == 3)
+	if (mode == 3)
 	{
 		elements = {1};
 		row_size = {5000};
 		nonzero_probs = {"0.1"};
 	}
-	if (inc == 4)
+	if (mode == 4)
 	{
 		elements = {1};
 		row_size = {2000};
 		nonzero_probs = {"N"};
 	}
-	if (inc == 10)
+	if (mode == 10)
 	{
 		elements = {1};
 		row_size = {10};
@@ -6545,9 +4203,9 @@ int main()
 
 	for (ll I = 0; I < row_size.size(); I++)
 	{
-
 		for (ll nonzero_idx = 0; nonzero_idx != nonzero_probs.size(); nonzero_idx++)
 		{
+
 			string nonzero_prob = nonzero_probs[nonzero_idx];
 			for (ll element_idx = 0; element_idx != elements.size(); element_idx++)
 			{
@@ -6568,67 +4226,41 @@ int main()
 					string filepath;
 					ll rowsize = row_size[I];
 
-					if (inc == 0)
+					if (mode == 0)
 					{
-						filepath = "./sotsuron_data/data_";
+						filepath = "./test_cases/data_";
 						filepath += to_string(weight) + "_" + to_string(element) + "_" + nonzero_prob;
 						filepath += "/data_" + to_string(rowsize) + "_" + to_string(rowsize * 2) + "_" + to_string(weight) + "_" + to_string(element) + "_" + nonzero_prob + "_" + to_string(file_num) + ".txt";
 						cout << filepath << endl;
-						//filepath = "C:/Users/nkk21/Desktop/sotsuron/sotsuron_data/data_";
-						//filepath += to_string(weight) + "_" + to_string(element) + "_" + "0.5";
-						//filepath += "/data_" + to_string(rowsize) + "_" + to_string(rowsize * 2) + "_" + to_string(weight) + "_" + to_string(element) + "_" + "0.5" + "_" + to_string(file_num) + ".txt";
 					}
-					if (inc == 1)
+					if (mode == 1)
 					{
-						filepath = "./sotsuron_data/incidence_un_3/incidence_matrix_";
+						filepath = "./test_cases/incidence_un_3/incidence_matrix_";
 						filepath += to_string(rowsize) + "_" + to_string(rowsize * 3) + "_" + to_string(file_num) + ".txt";
 						cout << filepath << endl;
-
-						//filepath = "C:/Users/nkk21/Desktop/sotsuron/sotsuron_data/incidence_un_3/incidence_matrix_";
-						//filepath += to_string(rowsize) + "_" + to_string(rowsize * 3) + "_" + to_string(file_num) + ".txt";
-
-						//cout << filepath << endl;
 					}
-					if (inc == 2)
+					if (mode == 2)
 					{
-						filepath = "./sotsuron_data/spath_";
+						filepath = "./test_cases/spath_";
 						filepath += to_string(element) + "_0.5/spath_";
 						filepath += to_string(element) + "_" + to_string(rowsize) + "_" + to_string(rowsize * 3) + "_" + to_string(file_num) + "_" + "0.5" + ".txt";
 						cout << filepath << endl;
-
-						//filepath = "C:/Users/nkk21/Desktop/sotsuron/sotsuron_data/spath_";
-						//filepath += to_string(k) + "_0.5/spath_";
-						//filepath += to_string(k) + "_" + to_string(rowsize) + "_" + to_string(rowsize * 3) + "_" + to_string(file_num) + "_" + "0.5" + ".txt";
 					}
-					if (inc == 3)
+					if (mode == 3)
 					{
-						filepath = "./sotsuron_data/GF2_";
+						filepath = "./test_cases/GF2_";
 						filepath += nonzero_prob + "/GF2_data_";
 						filepath += to_string(rowsize) + "_" + to_string(rowsize * 2) + "_" + nonzero_prob + "_" + to_string(file_num) + ".txt";
 						cout << filepath << endl;
-
-						//filepath = "C:/Users/nkk21/Desktop/sotsuron/sotsuron_data/spath_";
-						//filepath += to_string(k) + "_0.5/spath_";
-						//filepath += to_string(k) + "_" + to_string(rowsize) + "_" + to_string(rowsize * 3) + "_" + to_string(file_num) + "_" + "0.5" + ".txt";
 					}
-					if (inc == 4)
+					if (mode == 4)
 					{
-						filepath = "./sotsuron_data/yuukou_inc/yuukou_incidence_matrix_";
+						filepath = "./test_cases/yuukou_inc/yuukou_incidence_matrix_";
 						filepath += to_string(rowsize) + "_" + to_string(rowsize * 3) + "_" + to_string(file_num) + ".txt";
 						cout << filepath << endl;
 					}
-					if (inc == 10)
+					if (mode == 10)
 					{
-						/*
-						filepath = "./B/b";
-						if (file_num < 10)
-						{
-							filepath += "0";
-						}
-						filepath += to_string(file_num) + ".stp";
-						cout<<filepath<<endl;
-						*/
-
 						filepath="./I160/i160-";
 						if(file_num<10){
 							filepath+="00";
@@ -6655,9 +4287,8 @@ int main()
 					Matrix A;
 					clock_t start_for_steiner;
 					clock_t end_for_steiner;
-					if (inc == 10)
+					if (mode == 10)
 					{
-						//cout<<"aaaa"<<endl;
 						vector<ll> terminals;
 						vector<vector<pair<ll, ll>>> G;
 						input_for_steiner(filepath, terminals, G);
@@ -6689,19 +4320,15 @@ int main()
 						nonpair_vertex_num=w_v.size();
 
 						cout<<"pair_vertex_num"<<pair_vertex_num<<" notpair"<<w_v.size()<<endl;
-						//cout<<"bbbb"<<endl;
 					}
 					else
 					{
 						string x, y, z;
 						ifs >> x >> y >> z;
-						//cout << "x" << x << y << endl;
 						Matrix A(stoll(x), stoll(y));
 						pair_vertex_num = stoll(z);
-						//cout << A.row << " " << A.col << endl;
 						A.matrix_setZero();
-						//A.output_matrix();
-						//ll n = A.col / 2;
+						
 						ll n = pair_vertex_num / 2;
 						w = new Field[n];
 						for (ll i = 0; i < n; i++)
@@ -6722,8 +4349,6 @@ int main()
 							ll num = stoll(str);
 
 							A.X[0][i].input_ll(num);
-							//A.X[0][i].output();
-							//cout<<endl;
 						}
 						ll cnt = 0;
 						while (!ifs.eof())
@@ -6734,21 +4359,16 @@ int main()
 								ifs >> str;
 								ll num = stoll(str);
 								A.X[cnt + 1][i].input_ll(num);
-								//A.X[cnt+1][i].output();cout<<" ";
 							}
-							//cout<<endl;
 							cnt++;
-							//cout<<cnt<<endl;
 							if (cnt == A.row - 1)
 							{
-								//cout<<"b"<<endl;
 								for (ll i = 0; i < n / 2; i++)
 								{
 									string str;
 									ifs >> str;
 									ll num = stoll(str);
 									w[i].input_ll(num);
-									//cout<<"b-"<<i<<endl;
 								}
 								for (ll i = 0; i < n_; i++)
 								{
@@ -6764,69 +4384,15 @@ int main()
 						nonpair_vertex_num=0;
 					}
 
-					//cout<<"aaa"<<endl;
-					//A.output_matrix();
-					/*
-			cout<<"w:";
-			for(ll i=0;i<n;i++){
-				w[i].output();cout<<" ";
-			}
-			cout<<endl;
-			*/
-
-					//cout << "行列の入力：" << endl;
-					//Matrix A;
-					//A.input_matrix_int();
-					//cout << "a" << endl;
-
-					/* ll n = A.col / 2;
-		Field *w = new Field[n];
-		for (ll i = 0; i < n; i++)
-		{
-			w[i].setZero();
-		} */
-
-					/*
-		vector<ll> minimum_weight_parity_base = matroid_parity(A, w);
-		for (ll i = 0; i < minimum_weight_parity_base.size(); i++)
-		{
-			cout << minimum_weight_parity_base[i] << " ";
-		}
-		if (minimum_weight_parity_base.size() == 0)
-		{
-			cout << "there is no parity base" << endl;
-		}
-		cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
-	}while(next_permutation(vv.begin(),vv.end()));
-	*/
-
-					//cout << "ラインの重み入力" << endl;
-					/* for (ll i = 0; i < A.col / 2; i++)
-		{
-			//Field a;
-			//a.input();
-			//w[i] = a;
-			ll a;
-			cin >> a;
-			w[i] = RationalNumber(a, 1);
-		} */
-					//cout << "b" << endl;
-
 					vector<ll> minimum_weight_parity_base;
-					/*
-			clock_t start = clock();
-			 minimum_weight_parity_base = matroid_parity(A, w);
-			clock_t end = clock();
-			*/
 
-					/////
 					Matrix A_ = toINT(A);
 
 					clock_t start = clock();
 
 					vector<ll> prime_n;
 
-					if (inc == 0)
+					if (mode == 0)
 					{
 						ll gamma;
 						gamma = ceil(A.row * log(A_.maximum_number() * A.row)); //!!!!!!!!!!!!kaku!!!!!!!!!!
@@ -6838,13 +4404,6 @@ int main()
 						prime_n = {2};
 					}
 
-					/*
-			cout<<"prime"<<endl;
-			for(ll i=0;i<prime_n.size();i++){
-				cout<<prime_n[i]<<endl;
-			}
-			*/
-
 					Field opt_value = RationalNumber(INF, 1);
 					vector<ll> opt_Ba = {};
 					int opt_prime = -1;
@@ -6852,14 +4411,7 @@ int main()
 					{
 						prime_number = prime_n[prime_idx];
 
-						//cout<<"prime_number: "<<prime_number<<endl;
-
-						//cout<<"RG start"<<endl;
 						Matrix2 A_p = A_.RNtoGF();
-						//cout<<"RG end"<<endl;
-						//cout<<"A_"<<endl;A_.output_matrix();
-						//cout<<endl;cout<<"A_p"<<endl;
-						//A_p.output_matrix();
 
 						vector<ll> cur_Ba = matroid_parity(A_p, w, w_);
 						if (cur_Ba.size() >= A.row)
@@ -6887,54 +4439,36 @@ int main()
 								opt_Ba = cur_Ba;
 								opt_prime = prime_number;
 							}
-							/*
-					cout<<"cur_Ba:";
-					for(ll i=0;i<cur_Ba.size();i++){
-						cout<<cur_Ba[i]<<" ";
-					}
-					cout<<endl;
-					*/
 						}
-						/*
-				else{
-					
-					cout<<"no parity base:";
-					for(ll i=0;i<cur_Ba.size();i++){
-						cout<<cur_Ba[i]<<" ";
-					}
-					cout<<endl;
-				}
-				*/
 					}
 
 					minimum_weight_parity_base = opt_Ba;
 
 					clock_t end = clock();
 
-					/////
-
-					if (inc == 0)
+					if (mode == 0)
 					{
 						cout << "size of A:" << A.row << "*" << A.col << " w:" << weight << " gamma:" << element << " nonzero prob:" << nonzero_prob << endl;
 					}
-					if (inc == 1)
+					if (mode == 1)
 					{
 						cout << "size of A:" << A.row << "*" << A.col << " w:" << weight << endl;
 					}
-					if (inc == 2)
+					if (mode == 2)
 					{
 						cout << "size of A:" << A.row << "*" << A.col << " w:" << weight << endl;
 						cout << "k:" << element << endl;
 					}
-					if (inc == 3)
+					if (mode == 3)
 					{
 						cout << "size of A:" << A.row << "*" << A.col << " w:" << weight << endl;
 						cout << "nonzero prob:" << nonzero_prob << endl;
 					}
-					if (inc == 4)
+					if (mode == 4)
 					{
 						cout << "size of A:" << A.row << "*" << A.col << " w:" << weight << endl;
 					}
+
 					if (minimum_weight_parity_base.size() != 0)
 					{
 						sort(minimum_weight_parity_base.begin(), minimum_weight_parity_base.end());
@@ -6943,7 +4477,6 @@ int main()
 					cout << "the number of times of excuting Search/Blossom/Graft/DualUpdate/Augment" << endl;
 					cout << Search_num << " " << Blossom_num << " " << Graft_num << " " << DualUpdate_num << " " << Augment_num << endl;
 
-					//cout << "maximum absolute number in C:" << maximum_absolute_num << endl;
 					cout << "solution:";
 					if (minimum_weight_parity_base.size() != 0 && minimum_weight_parity_base.size() < A.row && !overflow)
 					{
@@ -6976,7 +4509,7 @@ int main()
 					cout << "opt_prime:" << opt_prime << endl;
 					cout << "max_prime" << prime_n[prime_n.size() - 1] << endl;
 
-					if(inc==10){
+					if(mode == 10){
 						cout<<endl;
 						cout<<"time for creating matrix for steiner:"<<(double)(end_for_steiner-start_for_steiner)/CLOCKS_PER_SEC<<"sec"<<endl;
 						cout<<"time for linear matroid parity algorithm:"<<(double)(end-start)/CLOCKS_PER_SEC<<"sec"<<endl;
@@ -6992,16 +4525,6 @@ int main()
 				cout << "---------------------------------------------" << endl;
 				cout << endl;
 
-				/* Matrix B(A.row, A.row);
-	for (ll i = 0; i < A.row; i++)
-	{
-		for (ll j = 0; j < minimum_weight_parity_base.size(); j++)
-		{
-			B.X[i][j] = A.X[i][minimum_weight_parity_base[j]];
-		}
-	}
-	cout << endl;
-	matrix_inverse(B).output_matrix(); */
 			}
 			cout << "***********************************************************" << endl;
 			cout << "***********************************************************" << endl;
