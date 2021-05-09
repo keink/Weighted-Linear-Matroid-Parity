@@ -9,10 +9,6 @@
 typedef long long ll;
 
 extern ll prime_number;
-/*extern std::vector< std::vector<ll> > product_table;
-extern std::vector< std::vector<ll> > sum_table;
-extern std::vector<ll> inverse_table;
-*/
 
 ll mod(ll x, ll p){
     if(x>=0){
@@ -155,7 +151,7 @@ ll num;
     }
 };
 
-//n番目までの素数を数える
+// Returns a list of all prime numbers which are less than or equal to n
 std::vector<ll> eratosthenes(ll n){
     std::vector<bool> is_prime;
     std::vector<ll> prime;
@@ -180,7 +176,7 @@ std::vector<ll> eratosthenes(ll n){
 
 }
 
-//n以下の素数を数える
+// Returns a list of all prime numbers which are less than or equal to n
 std::vector<ll> eratosthenes_(ll n){
     std::vector<bool> is_prime;
     std::vector<ll> prime;
@@ -198,5 +194,4 @@ std::vector<ll> eratosthenes_(ll n){
         }
     }
     return prime;
-
 }

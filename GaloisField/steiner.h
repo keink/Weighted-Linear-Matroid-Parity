@@ -24,33 +24,26 @@ void input_for_steiner(string filename,vector<ll>& terminals,vector<vector<pair<
 
     ifstream ifs;
     ifs.open(filename);
-    //cout << filename << endl;
     if (ifs.fail())
     {
         cout << "Fail" << endl;
         return;
     }
-    //cout << "open" << endl;
 
     int node_num;
     int edge_num;
     int terminals_num;
-    //vector<int> terminals;
-    //vector<vector<pair<int, int>>> G;
 
     while (!ifs.eof())
     {
         string str;
         ifs >> str;
 
-        //cout << str << endl;
-
         if (str == "Nodes")
         {
             string str1;
             ifs >> str1;
             node_num = stoi(str1);
-            //cout << "!!!node:" << node_num << endl;
             G.resize(node_num);
         }
         else if (str == "Edges")
@@ -58,12 +51,10 @@ void input_for_steiner(string filename,vector<ll>& terminals,vector<vector<pair<
             string str1;
             ifs >> str1;
             edge_num = stoi(str1);
-            //cout << "!!!edge:" << edge_num << endl;
 
             string str2, str3, str4;
             for (int i = 0; i < edge_num; i++)
             {
-                //cout << "a" << endl;
                 ifs >> str1 >> str2 >> str3 >> str4;
                 int v1 = stoi(str2);
                 int v2 = stoi(str3);
@@ -79,7 +70,6 @@ void input_for_steiner(string filename,vector<ll>& terminals,vector<vector<pair<
             ifs >> str1;
             ifs>>str1;
             terminals_num = stoi(str1);
-            //cout<<"!!!terminals:"<<terminals_num<<endl;
             string str2;
             for (int i = 0; i < terminals_num; i++)
             {
@@ -90,26 +80,6 @@ void input_for_steiner(string filename,vector<ll>& terminals,vector<vector<pair<
             }
         }
     }
-
-    //cout << "node num:" << node_num << endl;
-    //cout << "edge num:" << edge_num << endl;
-    //cout << "terminal num:" << terminals_num << endl;
-    /*
-    for (int i = 0; i < terminals.size(); i++)
-    {
-        cout << terminals[i] << " ";
-    }
-    cout << endl;
-    cout << "G:" << endl;
-    for (int i = 0; i < G.size(); i++)
-    {
-        cout << i << "::"<<endl;
-        for (int j = 0; j < G[i].size(); j++)
-        {
-            cout << G[i][j].first << " " << G[i][j].second << endl;
-        }
-    }
-    */
     return;
 }
 
@@ -127,10 +97,8 @@ void distance_between_allpairs(vector<vector<pair<ll,ll>>>& G, vector<vector<ll>
 
     
     for(int i=0;i<G.size();i++){
-        //cout<<"!!!!i!!!!"<<i<<endl;
         for(int j=0;j<G[i].size();j++)
         {
-            //cout<<"G[i][j].first/sescond"<<G[i][j].first<<" "<<G[i][j].second<<endl;
             dist[i][G[i][j].first]=G[i][j].second;
         }
     }
@@ -173,7 +141,6 @@ pair<Matrix,pair<vector<ll>,vector<ll>>> create_matrix_for_steiner(vector<long l
 {
     vector<vector<ll>> dist;
     dist.resize(G.size());
-   // cout<<"gsize"<<G.size()<<endl;
     for(int i=0;i<G.size();i++)
     {
         dist[i].resize(G.size());
@@ -187,20 +154,6 @@ pair<Matrix,pair<vector<ll>,vector<ll>>> create_matrix_for_steiner(vector<long l
     int ts=terminals.size();
     int w_size(ts*(ts-1)/2);
     int wsize=(ts*(ts-1)*(ts-2)/6);
-
-    
-    /*
-    cout<<"*******dist*******"<<endl;
-    for(int i=0;i<G.size();i++)
-    {
-        for(int j=0;j<G.size();j++)
-        {
-            cout<<dist[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    cout<<"*******dist*******"<<endl;
-    */
 
     Matrix A(terminals.size(),wsize*2+w_size);
     A.matrix_setZero();
@@ -232,34 +185,6 @@ pair<Matrix,pair<vector<ll>,vector<ll>>> create_matrix_for_steiner(vector<long l
             }
         }
     }
-    /*
-    A.output_matrix_num();
-    cout<<"w"<<endl;
-    for(int i=0;i<w.size();i++)
-    {
-        cout<<w[i]<<" ";
-    }
-    cout<<endl;
-     cout<<"w_"<<endl;
-    for(int i=0;i<w_.size();i++)
-    {
-        cout<<w_[i]<<" ";
-    }
-    cout<<endl;
-    */
     
     return make_pair(A,make_pair(w,w_));
 }
-/*
-int main()
-{
-    string filename = "./B/b01.stp";
-    vector<ll> terminals;
-    vector<vector<pair<ll,ll>>> G;
-    input(filename,terminals, G);
-    
-    create_matrix_for_steiner(terminals, G);
-
-    return 0;
-}
-*/
